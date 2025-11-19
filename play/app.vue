@@ -103,6 +103,10 @@ const check = ref(true)
 const handleChange = (val: boolean) => {
   console.log('checkbox changed:', val)
 }
+
+const handleClick = () => {
+  console.log('按钮被点击了')
+}
 </script>
 <template>
   <ax-icon :size="160" :color="'red'">
@@ -134,4 +138,27 @@ const handleChange = (val: boolean) => {
     @change="handleChange"
     >插槽方式传入节点</ax-checkbox
   >
+  <br />
+
+  <ax-button
+    @click="handleClick"
+    @mousedown="
+      () => {
+        console.log('按钮被按下了')
+      }
+    "
+    size="medium"
+    type="danger"
+    :round="true"
+    :loading="false"
+    :disabled="false"
+    icon-placement="right"
+  >
+    按钮
+    <template #icon>
+      <ax-icon>
+        <i-codex:checklist></i-codex:checklist>
+      </ax-icon>
+    </template>
+  </ax-button>
 </template>

@@ -6,9 +6,10 @@ import '@axis-ui/theme-chalk/src/index.scss'
 import Icon from './icon'
 import Tree from './tree'
 import Checkbox from './checkbox'
+import Button from './button'
 
 // 所有组件列表
-const components = [Icon, Tree, Checkbox]
+const components = [Icon, Tree, Checkbox, Button]
 
 // 全量安装方法
 const install = (app: App) => {
@@ -23,7 +24,7 @@ export default {
 }
 
 // 按需导出各个组件
-export { Icon, Tree, Checkbox }
+export { Icon, Tree, Checkbox, Button }
 
 // 导出组件类型
 export * from './icon'
