@@ -7,9 +7,10 @@ import Icon from './icon'
 import Tree from './tree'
 import Checkbox from './checkbox'
 import Button from './button'
+import Input from './input'
 
 // 所有组件列表
-const components = [Icon, Tree, Checkbox, Button]
+const components = [Icon, Tree, Checkbox, Button, Input]
 
 // 全量安装方法
 const install = (app: App) => {
@@ -24,7 +25,7 @@ export default {
 }
 
 // 按需导出各个组件
-export { Icon, Tree, Checkbox, Button }
+export { Icon, Tree, Checkbox, Button, Input }
 
 // 导出组件类型
 export * from './icon'

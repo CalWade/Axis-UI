@@ -161,4 +161,20 @@ const handleClick = () => {
       </ax-icon>
     </template>
   </ax-button>
+
+  <ax-input>
+    <template #prepend>前缀</template>
+    <template #prefixIcon>
+      <ax-icon>
+        <i-codex:checklist></i-codex:checklist>
+      </ax-icon>
+    </template>
+
+    <template #suffixIcon>
+      <ax-icon>
+        <i-codex:checklist></i-codex:checklist>
+      </ax-icon>
+    </template>
+    <template #append>后缀</template>
+  </ax-input>
 </template>
