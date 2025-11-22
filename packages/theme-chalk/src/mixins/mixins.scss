@@ -36,6 +36,15 @@
   }
 }
 
+// _group_header => .ax-button__group_header
+@mixin be($block, $element) {
+  @at-root {
+    #{& + $element-separator + $block + $element-separator + $element} {
+      @content;
+    }
+  }
+}
+
 @mixin button-variant($color, $background-color, $border-color) {
   color: $color;
   background: $background-color;

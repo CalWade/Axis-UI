@@ -1,11 +1,17 @@
-$color-primary: #409eff;
+$color-primary: #ff9eb5; // 樱花粉主色调
 
-// 背景偏冷色调 (GitHub Dark 风格)
-$color-white: #0d1117; // 用作主背景
-$color-black: #f0f6fc; // 用作主文字
+// 樱花粉白主题 (温暖柔和的色调)
+$color-white: #fdf6f8; // 用作主背景 - 淡粉色背景
+$color-black: #2d1b3d; // 用作主文字 - 深紫色文字
 
-// 功能色微调 (更荧光一点，适合赛博风格)
-$color-success: #3fb950;
-$color-warning: #d29922;
-$color-danger: #f85149;
-$color-info: #8b949e;
+// 功能色调整为柔和的樱花色调
+$color-success: #a8e6cf; // 薄荷绿
+$color-warning: #ffd3b6; // 桃橘色
+$color-danger: #ffb3ba; // 浅玫瑰红
+$color-info: #b8a9c9; // 薰衣草紫
+
+// 额外的樱花主题辅助色
+$color-primary-light: #ffe0e9; // 浅粉色
+$color-primary-dark: #ff7a9c; // 深粉色
+$color-secondary: #e8d5f2; // 淡紫色
+$color-accent: #ffcce7; // 粉紫色
