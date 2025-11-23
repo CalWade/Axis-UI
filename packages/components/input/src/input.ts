@@ -14,8 +14,6 @@ import { ExtractPropTypes, PropType } from 'vue'
 
 //readonly
 
-//label
-
 export const inputProps = {
   type: {
     type: String,
@@ -35,12 +33,13 @@ export const inputProps = {
     type: Boolean,
     default: false,
   },
-  readonly: {
+  disabled: {
     type: Boolean,
     default: false,
   },
-  label: {
-    type: String,
+  readonly: {
+    type: Boolean,
+    default: false,
   },
 } as const
 
@@ -52,7 +51,7 @@ export const inputEmits = {
   change: (value: string) => typeof value === 'string',
   focus: (e: FocusEvent) => e instanceof FocusEvent,
   blur: (e: FocusEvent) => e instanceof FocusEvent,
-  clear: () => true,//清空事件
+  clear: () => true, //清空事件
 }
 
 export type inputEmits = typeof inputEmits

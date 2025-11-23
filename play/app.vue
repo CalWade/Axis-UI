@@ -107,6 +107,16 @@ const handleChange = (val: boolean) => {
 const handleClick = () => {
   console.log('按钮被点击了')
 }
+
+const username = ref('hello')
+
+const handleBlur = (e: FocusEvent) => {
+  console.log('输入框失去焦点了', e)
+}
+
+const handleFocus = (e: FocusEvent) => {
+  console.log('输入框获得焦点了', e)
+}
 </script>
 <template>
   <ax-icon :size="160" :color="'red'">
@@ -162,7 +172,14 @@ const handleClick = () => {
     </template>
   </ax-button>
 
-  <ax-input>
+  <ax-input
+    v-model="username"
+    @blur="handleBlur"
+    @focus="handleFocus"
+    placeholder="请输入用户名"
+    show-password
+    clearable
+  >
     <template #prepend>前缀</template>
     <template #prefixIcon>
       <ax-icon>
