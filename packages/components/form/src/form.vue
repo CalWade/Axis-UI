@@ -31,7 +31,10 @@ const validate = async (
   }
   //没有错误返回true
   if (Object.keys(errors).length === 0) {
-    return callback?.(true)
+    if (callback) {
+      callback(true)
+    }
+    return true
   } else {
     //有错误返回false和错误信息
     if (callback) {

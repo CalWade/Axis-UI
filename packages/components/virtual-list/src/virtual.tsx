@@ -67,7 +67,7 @@ export default defineComponent({
             class={bem.e('scroll-list')}
             style={{ transform: `translate3d(0,${offsetY.value}px,0)` }}
           >
-            {visibleData.value.map(node => slots.default!({ node }))}
+            {visibleData.value.map(node => slots.default?.({ node }))}
           </div>
         </div>
       )
