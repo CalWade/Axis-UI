@@ -64,6 +64,7 @@
     ]
   },
   "dependencies": {
+    "async-validator": "^4.2.5",
     "unplugin-vue-define-options": "^3.1.1"
   }
 }

@@ -50,6 +50,7 @@
 import { createNamespace } from '@axis-ui/utils/create'
 import {
   computed,
+  inject,
   nextTick,
   onMounted,
   ref,
@@ -58,6 +59,9 @@ import {
   watch,
 } from 'vue'
 import { inputEmits, inputProps } from './input'
+import { formItemContextKey } from '../../form'
+
+const FormItemContext = inject(formItemContextKey)
 
 defineOptions({
   name: 'AxInput',
@@ -86,10 +90,10 @@ onMounted(() => {
 watch(
   () => props.modelValue,
   () => {
+    FormItemContext?.validate('change').catch(() => {}) //通知form-item进行校验
     setNativeInputValue()
   }
 )
-
 
 // --------------------------
 const focus = async () => {
@@ -110,7 +114,6 @@ const showPwdVisible = computed(() => {
 })
 
 // --------------------------
-
 
 const showClear = computed(() => {
   return (
@@ -138,6 +141,8 @@ const handleChange = (e: Event) => {
 
 const handleBlur = (e: FocusEvent) => {
   emit('blur', e)
+  //通知form-item进行校验
+  FormItemContext?.validate('blur').catch(() => {})
 }
 
 const handleFocus = (e: FocusEvent) => {
