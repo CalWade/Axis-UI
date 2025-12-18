@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, shallowRef, ref, watch } from 'vue'
 
 // props: 可选的 src，相对 docs/src/components/ 的路径写法（如 ./demos/basic.vue）
 const props = defineProps<{ src?: string }>()
@@ -22,7 +22,7 @@ const props = defineProps<{ src?: string }>()
 // demos 实际在 docs/src/components/demos/*.vue，因此回退两级到 docs/.vitepress，再到 ../../src/components/demos
 const demoModules = import.meta.glob('../../../src/components/demos/**/*.vue')
 
-const LoadedComponent = ref<unknown | null>(null)
+const LoadedComponent = shallowRef<unknown | null>(null)
 const errorMessage = ref('')
 
 const normalizedKey = computed(() => {

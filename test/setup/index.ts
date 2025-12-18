@@ -2,7 +2,17 @@ import { vi } from 'vitest'
 import { config } from '@vue/test-utils'
 
 // 全局配置Vue Test Utils
-config.global.stubs = {}
+config.global.stubs = {
+  'ax-icon': true,
+  'AxIcon': true,
+  'ax-virtual-list': true,
+  'AxVirtualList': true,
+  'ax-tree-node': true,
+  'AxTreeNode': true,
+  'i-codex:loader': true,
+  'i-codex:checklist': true,
+  'i-codex:cross': true,
+}
 
 // 模拟IntersectionObserver
 global.IntersectionObserver = vi.fn().mockImplementation(() => ({

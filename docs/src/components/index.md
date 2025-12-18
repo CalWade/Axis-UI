@@ -6,7 +6,25 @@ Axis-UI 提供了丰富的 Vue 3 组件，支持 TypeScript 和完整的类型�
 
 ### 基础组件
 
-- [Icon 图标](./icon) - 基于字体的图标组件
+| 组件 | 说明 |
+| --- | --- |
+| [Icon 图标](./icon) | 基于字体的图标组件 |
+| [Button 按钮](./button) | 常用的操作按钮 |
+
+### 表单组件
+
+| 组件 | 说明 |
+| --- | --- |
+| [Input 输入框](./input) | 文本输入组件 |
+| [Checkbox 复选框](./checkbox) | 多选组件 |
+| [Form 表单](./form) | 表单验证组件 |
+
+### 数据组件
+
+| 组件 | 说明 |
+| --- | --- |
+| [Tree 树形控件](./tree) | 层级结构展示 |
+| [VirtualList 虚拟列表](./virtual-list) | 大数据虚拟滚动 |
 
 ## 🚀 快速开始
 
@@ -16,13 +34,25 @@ Axis-UI 提供了丰富的 Vue 3 组件，支持 TypeScript 和完整的类型�
 npm install @axis-ui/components
 ```
 
-### 使用
+### 全量引入
 
 ```typescript
-import { AxIcon } from '@axis-ui/components'
+import { createApp } from 'vue'
+import AxisUI from '@axis-ui/components'
+import '@axis-ui/theme-chalk/src/index.scss'
+
+const app = createApp(App)
+app.use(AxisUI)
+```
+
+### 按需引入
+
+```typescript
+import { AxButton, AxInput, AxForm } from '@axis-ui/components'
 
 // 在组件中使用
-<AxIcon :size="24" color="#3b82f6">🏠</AxIcon>
+<AxButton type="primary">按钮</AxButton>
+<AxInput v-model="value" placeholder="请输入" />
 ```
 
 ## 🎨 主题定制
@@ -32,7 +62,10 @@ import { AxIcon } from '@axis-ui/components'
 ```css
 :root {
   --ax-color-primary: #3b82f6;
-  --ax-color-secondary: #6b7280;
+  --ax-color-success: #10b981;
+  --ax-color-warning: #f59e0b;
+  --ax-color-danger: #ef4444;
+  --ax-color-info: #6b7280;
   --ax-border-radius: 4px;
 }
 ```

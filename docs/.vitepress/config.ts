@@ -2,6 +2,11 @@ import { defineConfig } from 'vitepress'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import vueJsx from '@vitejs/plugin-vue-jsx'
+import Icons from 'unplugin-icons/vite'
+import IconsResolver from 'unplugin-icons/resolver'
+import Components from 'unplugin-vue-components/vite'
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
@@ -10,7 +15,7 @@ export default defineConfig({
   title: 'Axis-UI',
   description: '基于 Vue 3 + TypeScript 的现代化组件库',
   lang: 'zh-CN',
- base: '/Axis-UI/',
+  base: '/Axis-UI/',
   // 目录设置
   srcDir: './src',
 
@@ -43,7 +48,25 @@ export default defineConfig({
         },
         {
           text: '基础组件',
-          items: [{ text: 'Icon 图标', link: '/components/icon' }],
+          items: [
+            { text: 'Icon 图标', link: '/components/icon' },
+            { text: 'Button 按钮', link: '/components/button' },
+          ],
+        },
+        {
+          text: '表单组件',
+          items: [
+            { text: 'Input 输入框', link: '/components/input' },
+            { text: 'Checkbox 复选框', link: '/components/checkbox' },
+            { text: 'Form 表单', link: '/components/form' },
+          ],
+        },
+        {
+          text: '数据组件',
+          items: [
+            { text: 'Tree 树形控件', link: '/components/tree' },
+            { text: 'VirtualList 虚拟列表', link: '/components/virtual-list' },
+          ],
         },
       ],
       '/api/': [
@@ -79,6 +102,22 @@ export default defineConfig({
 
   // Vite 配置：为 demos 提供 monorepo 内部导入别名
   vite: {
+    plugins: [
+      vueJsx(),
+      Icons({
+        autoInstall: true,
+        compiler: 'vue3',
+      }),
+      Components({
+        dirs: ['.vitepress/theme/components'],
+        include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
+        resolvers: [
+          IconsResolver({
+            prefix: 'i',
+          }),
+        ],
+      }),
+    ],
     resolve: {
       alias: {
         '@packages': path.resolve(__dirname, '../../packages'),
