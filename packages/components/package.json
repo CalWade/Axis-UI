@@ -64,11 +64,15 @@
   "peerDependencies": {
     "vue": "^3.5.0"
   },
+  "dependencies": {
+    "async-validator": "^4.2.5",
+    "unplugin-vue-define-options": "^3.1.1",
+    "@axis-ui/theme-chalk": "workspace:*",
+    "@axis-ui/utils": "workspace:*"
+  },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.1",
     "vite": "^7.1.10",
-    "vite-plugin-dts": "^4.5.4",
-    "@axis-ui/theme-chalk": "workspace:*",
-    "@axis-ui/utils": "workspace:*"
+    "vite-plugin-dts": "^4.5.4"
   }
 }

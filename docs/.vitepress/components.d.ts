@@ -16,9 +16,3 @@ declare module 'vue' {
     'ICodex:loader': typeof import('~icons/codex/loader')['default']
   }
 }
-
-// For TSX support
-declare global {
-  const 'ICodex:directionDownRight': typeof import('~icons/codex/direction-down-right')['default']
-  const 'ICodex:loader': typeof import('~icons/codex/loader')['default']
-}
