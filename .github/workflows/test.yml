@@ -77,9 +77,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # ... (build components, build docs... 保持不变)
-      - name: Build components
-        run: pnpm -C packages/components build
+      # 5. 构建所有包
+      - name: Build all packages
+        run: pnpm build:all
+
+      # 6. 运行冒烟测试 (Smoke Test)
+      - name: Run smoke test
+        run: node scripts/smoke-test.mjs
+
       - name: Build docs
         run: pnpm docs:build
       - name: Upload build artifacts

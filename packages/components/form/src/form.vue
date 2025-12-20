@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { createNamespace } from '@axis-ui/utils/create'
+import { createNamespace } from '@axis-ui/utils'
 import { FormContext, FormContextKey, formProps } from './form'
 import { FormItemContext } from './form-item'
 import { provide } from 'vue'

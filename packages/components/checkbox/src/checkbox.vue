@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-import { createNamespace } from '@axis-ui/utils/create'
+import { createNamespace } from '@axis-ui/utils'
 import { checkboxEmits, checkboxProps } from './checkbox'
 import { computed, onMounted, ref, watch } from 'vue'
 

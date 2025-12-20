@@ -35,7 +35,7 @@ import {
 import { computed, onMounted, provide, ref, useSlots, watch } from 'vue'
 import AxTreeNode from './treeNode.vue'
 import AxVirtualList from '../../virtual-list'
-import { createNamespace } from '@axis-ui/utils/create'
+import { createNamespace } from '@axis-ui/utils'
 const bem = createNamespace('tree')
 defineOptions({
   name: 'AxTree',

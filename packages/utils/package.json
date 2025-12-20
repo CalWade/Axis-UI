@@ -1,9 +1,28 @@
 {
   "name": "@axis-ui/utils",
-  "version": "1.0.0",
-  "description": "Axis-UI internal utilities (workspace only)",
-  "private": true,
-  "main": "with-install.ts",
+  "version": "1.0.1",
+  "type": "module",
+  "description": "Axis-UI internal utilities",
+  "private": false,
+  "main": "./dist/index.umd.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.umd.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "vite build"
+  },
+  "files": [
+    "dist"
+  ],
   "author": "韦贺文",
   "license": "MIT"
 }

@@ -1,4 +1,4 @@
-import { withInstall } from '@axis-ui/utils/with-install'
+import { withInstall } from '@axis-ui/utils'
 import _Icon from './src/icon.vue'
 
 const Icon = withInstall(_Icon)

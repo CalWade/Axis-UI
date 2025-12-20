@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import { createNamespace } from '@axis-ui/utils/create'
+import { createNamespace } from '@axis-ui/utils'
 import { buttonEmits, buttonProps } from './button'
 import { useSlots } from 'vue'
 

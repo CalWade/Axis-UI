@@ -113,10 +113,25 @@ git commit -m "docs: update button documentation"
 
 ## 📦 构建和发布
 
-### 构建组件库
+### 构建所有包
 
 ```bash
-pnpm build
+pnpm build:all
+```
+
+### 版本管理与发布
+
+项目使用 Changesets 进行版本管理：
+
+```bash
+# 1. 创建变更集 (在修改代码后运行)
+npx changeset
+
+# 2. 更新版本号 (消耗变更集)
+pnpm run version
+
+# 3. 发布到 npm
+pnpm run release
 ```
 
 ### 构建文档

@@ -1,15 +1,48 @@
 {
   "name": "axis-ui",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "type": "module",
   "description": "A modern, lightweight Vue 3 component library",
-  "main": "dist/axis-ui.umd.js",
-  "module": "dist/axis-ui.es.js",
-  "types": "dist/types/index.d.ts",
+  "main": "./dist/index.umd.js",
+  "module": "./dist/index.js",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "import": "./dist/axis-ui.es.js",
-      "require": "./dist/axis-ui.umd.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.umd.js"
+    },
+    "./button": {
+      "types": "./dist/types/button/index.d.ts",
+      "import": "./dist/button/index.js"
+    },
+    "./checkbox": {
+      "types": "./dist/types/checkbox/index.d.ts",
+      "import": "./dist/checkbox/index.js"
+    },
+    "./form": {
+      "types": "./dist/types/form/index.d.ts",
+      "import": "./dist/form/index.js"
+    },
+    "./icon": {
+      "types": "./dist/types/icon/index.d.ts",
+      "import": "./dist/icon/index.js"
+    },
+    "./input": {
+      "types": "./dist/types/input/index.d.ts",
+      "import": "./dist/input/index.js"
+    },
+    "./tree": {
+      "types": "./dist/types/tree/index.d.ts",
+      "import": "./dist/tree/index.js"
+    },
+    "./virtual-list": {
+      "types": "./dist/types/virtual-list/index.d.ts",
+      "import": "./dist/virtual-list/index.js"
+    },
+    "./resolver": {
+      "types": "./dist/types/resolver.d.ts",
+      "import": "./dist/resolver.js"
     },
     "./dist/style.css": "./dist/style.css"
   },
@@ -17,29 +50,17 @@
     "dist"
   ],
   "scripts": {
-    "build": "vite build",
+    "build": "vite build && vite build --mode umd",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "vue3",
     "vue",
     "component-library",
-    "axis-ui",
-    "ui",
-    "components",
-    "typescript"
+    "axis-ui"
   ],
   "author": "韦贺文",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Calvinvv/Axis-UI.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Calvinvv/Axis-UI/issues"
-  },
-  "homepage": "https://github.com/Calvinvv/Axis-UI#readme",
-  "packageManager": "pnpm@10.18.3",
   "peerDependencies": {
     "vue": "^3.5.0"
   },

@@ -12,12 +12,12 @@
 
 ## ✨ 特性
 
-- 🚀 基于 Vue 3 + TypeScript 开发
-- 📦 支持 ES Module 和 UMD 两种格式
-- 🎨 完整的 TypeScript 类型定义
-- 🔧 支持按需引入和全量引入
-- 💪 使用 Vite 构建，体积小、速度快
-- 📐 遵循工程化最佳实践
+- 🚀 **现代化架构**: 基于 Vue 3 + TypeScript + Vite 构建
+- 📦 **双模式构建**: 同时支持 ESM (Tree-shaking) 和 UMD 格式
+- 🎨 **类型友好**: 提供完整的 TypeScript 类型定义
+- 🔧 **按需引入**: 支持 Resolver 自动按需加载
+- � **工程化规范**: 采用 Monorepo 架构，使用 Changesets 管理版本
+- 🧪 **质量保障**: 完善的测试流程（单元测试 + 冒烟测试）
 
 ## 📦 安装
 
@@ -47,32 +47,45 @@ app.use(AxisUI)
 app.mount('#app')
 ```
 
-### 按需引入
+### 按需引入 (推荐)
+
+借助 `unplugin-vue-components` 和 `AxisUIResolver`，您可以实现自动按需引入。
+
+**vite.config.ts**
+
+```typescript
+import { defineConfig } from 'vite'
+import Components from 'unplugin-vue-components/vite'
+import { AxisUIResolver } from '@axis-ui/components/resolver'
+
+export default defineConfig({
+  plugins: [
+    Components({
+      resolvers: [AxisUIResolver()],
+    }),
+  ],
+})
+```
+
+### 手动按需引入
 
 ```typescript
 import { AxIcon } from '@axis-ui/components'
-import '@axis-ui/components/dist/style.css'
-
-export default {
-  components: {
-    AxIcon,
-  },
-}
-```
-
-### 在模板中使用
-
-```vue
-<template>
-  <ax-icon name="edit" size="20" color="#409eff" />
-</template>
+// 样式文件会自动按需加载（如果使用了 Resolver），否则需手动引入
+// import '@axis-ui/components/dist/style.css' 
 ```
 
 ## 📚 组件列表
 
 当前已实现的组件：
 
+- **Button** - 按钮组件
+- **Checkbox** - 复选框组件
+- **Form** - 表单组件
 - **Icon** - 图标组件
+- **Input** - 输入框组件
+- **Tree** - 树形控件
+- **VirtualList** - 虚拟列表
 
 更多组件正在开发中...
 

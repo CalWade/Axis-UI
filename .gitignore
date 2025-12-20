@@ -25,6 +25,7 @@ yarn-error.log*
 *.sw?
 
 .cunzhi-memory/
+.ai_memory/
 
 # 环境变量
 .env

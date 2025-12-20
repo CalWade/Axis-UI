@@ -1,4 +1,4 @@
-import { createNamespace } from '@axis-ui/utils/create'
+import { createNamespace } from '@axis-ui/utils'
 import { computed, defineComponent, onMounted, reactive, ref, watch } from 'vue'
 
 export default defineComponent({

@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts" setup>
-import { createNamespace } from '@axis-ui/utils/create'
+import { createNamespace } from '@axis-ui/utils'
 import {
   computed,
   inject,

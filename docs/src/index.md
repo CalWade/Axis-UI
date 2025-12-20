@@ -19,6 +19,9 @@ features:
 - icon: 🚀
   title: 现代化架构
   details: 基于 Vue 3 + TypeScript + Vite 构建，支持 Tree Shaking 和按需引入
+- icon: 📐
+  title: 工程化规范
+  details: 采用 Monorepo 架构，集成 Changesets 版本管理和自动化发布流程
 - icon: 🧪
   title: TDD 开发
   details: 完整的测试驱动开发环境，支持单元测试、快照测试和覆盖率报告

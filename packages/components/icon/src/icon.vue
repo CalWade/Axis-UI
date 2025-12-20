@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { iconProps } from './icon'
-import { createNamespace } from '@axis-ui/utils/create'
+import { createNamespace } from '@axis-ui/utils'
 defineOptions({ name: 'AxIcon' })
 const bem = createNamespace('icon')
 
