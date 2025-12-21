@@ -13,6 +13,21 @@ export function AxisUIResolver(): ComponentResolver {
         const partialName = name.slice(2) // 得到 Button
         const kebabName = partialName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
 
+        // 子组件映射表：组件名 -> 所属包名
+        const subComponents: Record<string, string> = {
+          FormItem: 'form',
+          // TableColumn: 'table', // 示例
+        }
+
+        if (subComponents[partialName]) {
+          const parentName = subComponents[partialName]
+          return {
+            name: partialName,
+            from: `axis-ui/${parentName}`,
+            sideEffects: `@axis-ui/theme-chalk/dist/${parentName}.css`,
+          }
+        }
+
         return {
           name: partialName, // 导出名，如 Button
           from: `axis-ui/${kebabName}`, // 路径，如 axis-ui/button

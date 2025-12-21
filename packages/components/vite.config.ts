@@ -27,7 +27,8 @@ export default defineConfig(({ mode }) => {
           ? resolve(__dirname, 'index.ts')
           : {
               index: resolve(__dirname, 'index.ts'),
-              resolver: resolve(__dirname, 'resolver.ts')
+              resolver: resolve(__dirname, 'resolver.ts'),
+              'form-item': resolve(__dirname, 'form-item/index.ts'),
             },
         name: 'AxisUI',
         // ESM: 保留文件名; UMD: 固定文件名

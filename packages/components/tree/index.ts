@@ -1,7 +1,7 @@
 import { withInstall } from '@axis-ui/utils'
 import _Tree from './src/tree.vue'
 
-const Tree = withInstall(_Tree)
+export const Tree = withInstall(_Tree)
 
 export default Tree
 

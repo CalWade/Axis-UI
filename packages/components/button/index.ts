@@ -1,7 +1,7 @@
 import { withInstall } from '@axis-ui/utils'
 import _Button from './src/button.vue'
 
-const Button = withInstall(_Button)
+export const Button = withInstall(_Button)
 
 export default Button
 

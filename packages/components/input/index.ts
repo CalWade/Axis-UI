@@ -1,7 +1,7 @@
 import { withInstall } from '@axis-ui/utils'
 import _Input from './src/input.vue'
 
-const Input = withInstall(_Input)
+export const Input = withInstall(_Input)
 
 export default Input
 

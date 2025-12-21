@@ -7,6 +7,8 @@ import Components from 'unplugin-vue-components/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 
+import { AxisUIResolver } from '../packages/components/resolver'
+
 // {{ AURA-X: Modify - 仅配置 components 入口 alias，其他包由 workspace 自然解析. Approval: 寸止 }}
 export default defineConfig({
   plugins: [
@@ -20,6 +22,7 @@ export default defineConfig({
     Components({
       dts: false,
       resolvers: [
+        AxisUIResolver(),
         // 自动注册图标组件
         IconsResolver({
           prefix: 'i', // 自动引入的图标组件前缀，默认为 'i'
@@ -28,10 +31,27 @@ export default defineConfig({
     }),
   ],
   resolve: {
-    alias: {
-      // 仅映射 components 入口到源码（开发环境实时更新）
-      // theme-chalk 和 utils 通过 workspace 协议自然解析
-      'axis-ui': resolve(__dirname, '../packages/components/index.ts'),
-    },
+    alias: [
+      {
+        find: /^axis-ui\/(.*)$/,
+        replacement: resolve(__dirname, '../packages/components/$1/index.ts'),
+      },
+      {
+        find: /^axis-ui$/,
+        replacement: resolve(__dirname, '../packages/components/index.ts'),
+      },
+      {
+        find: '@axis-ui/utils',
+        replacement: resolve(__dirname, '../packages/utils/index.ts'),
+      },
+      {
+        find: /^@axis-ui\/theme-chalk\/dist\/(.*)\.css$/,
+        replacement: resolve(__dirname, '../packages/theme-chalk/src/$1.scss'),
+      },
+      {
+        find: '@axis-ui/theme-chalk',
+        replacement: resolve(__dirname, '../packages/theme-chalk/src/index.scss'),
+      },
+    ],
   },
 })

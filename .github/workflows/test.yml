@@ -81,9 +81,8 @@ jobs:
       - name: Build all packages
         run: pnpm build:all
 
-      # 6. 运行冒烟测试 (Smoke Test)
       - name: Run smoke test
-        run: node scripts/smoke-test.mjs
+        run: pnpm test:smoke
 
       - name: Build docs
         run: pnpm docs:build

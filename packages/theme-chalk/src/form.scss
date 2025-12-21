@@ -1,26 +1,7 @@
 @use 'mixins/mixins' as *;
 @use 'common/var' as *;
+@use './form-item.scss';
 
-@include b(form-item) {
-  display: flex;
-
-  @include e(label) {
-    display: inline-flex;
-    justify-content: flex-end;
-    align-items: flex-start;
-    padding-right: 12px;
-    height: 32px;
-    line-height: 32px;
-  }
-
-  @include e(content) {
-    display: flex;
-    flex: 1;
-    flex-wrap: wrap;
-  }
-
-  @include e(error) {
-    color: $color-danger;
-    font-size: 12px;
-  }
+@include b(form) {
+  // Form 组件的基础样式
 }

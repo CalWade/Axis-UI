@@ -17,6 +17,7 @@
     "test:ui": "vitest --ui",
     "test:snapshot": "vitest run --update-snapshots",
     "test:ci": "vitest run --coverage --reporter=verbose",
+    "test:smoke": "node scripts/smoke-test.mjs",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
