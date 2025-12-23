@@ -49,5 +49,7 @@ jobs:
           title: 'chore: version packages'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # 使用 Trusted Publisher (OIDC)，无需 NPM_TOKEN
-          NPM_CONFIG_PROVENANCE: true # 启用 provenance 签名
+          # Trusted Publisher (OIDC) 配置
+          # NODE_AUTH_TOKEN 必须存在（触发 npm 的 OIDC 流程），但值为空或占位
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
