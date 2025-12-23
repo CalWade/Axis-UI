@@ -1,5 +1,6 @@
 //block 代码块 element 元素 modifier 修饰符
 
+//用于拼接字符串：传入各部分单词，函数进行拼接
 function _bem(
   prefixName: string,
   blockSuffix: string,
@@ -18,6 +19,7 @@ function _bem(
   return prefixName
 }
 
+//提供多种函数，提供b()、e()、m()等多种方式拼接类名
 function createBEM(prefixName: string) {
   const b = (blockSuffix: string = '') => _bem(prefixName, blockSuffix, '', '')
   const e = (element: string = '') =>
@@ -55,6 +57,7 @@ function createBEM(prefixName: string) {
   }
 }
 
+//拼接前缀为ax-，创建命名空间
 export function createNamespace(name: string) {
   const prefixName = `ax-${name}`
   return createBEM(prefixName)
