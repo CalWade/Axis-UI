@@ -14,7 +14,7 @@ jobs:
     permissions:
       contents: write # 允许创建 release 和提交代码
       pull-requests: write # 允许创建 PR (Version Packages)
-      id-token: write # 用于 npm provenance (可选)
+      id-token: write # 必须：用于 OIDC Trusted Publisher
 
     steps:
       - name: Checkout Repo
@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: 'https://registry.npmjs.org' # 必须：用于 OIDC 认证
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
@@ -49,4 +49,5 @@ jobs:
           title: 'chore: version packages'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_CONFIG_PROVENANCE: true
+          # 使用 Trusted Publisher (OIDC)，无需 NPM_TOKEN
+          NPM_CONFIG_PROVENANCE: true # 启用 provenance 签名
