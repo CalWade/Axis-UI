@@ -24,6 +24,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
@@ -35,6 +36,9 @@ jobs:
 
       - name: Build Packages
         run: pnpm build:all
+
+      - name: Enable Provenance for CI
+        run: pnpm -r exec npm pkg set publishConfig.provenance=true
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
@@ -48,4 +52,3 @@ jobs:
           title: 'chore: version packages'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
