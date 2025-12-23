@@ -61,9 +61,6 @@
   ],
   "author": "韦贺文",
   "license": "MIT",
-  "publishConfig": {
-    "access": "public"
-  },
   "peerDependencies": {
     "vue": "^3.5.0"
   },
