@@ -1,5 +1,11 @@
 # @axis-ui/utils
 
+## 1.0.2
+
+### Patch Changes
+
+- 03be6c4: text
+
 ## 1.0.1
 
 ### Patch Changes
