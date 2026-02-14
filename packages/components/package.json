@@ -1,6 +1,6 @@
 {
   "name": "axis-ui",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "description": "A modern, lightweight Vue 3 component library",
   "main": "./dist/index.umd.js",
