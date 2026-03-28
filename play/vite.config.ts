@@ -9,7 +9,6 @@ import IconsResolver from 'unplugin-icons/resolver'
 
 import { AxisUIResolver } from '../packages/components/resolver'
 
-// {{ AURA-X: Modify - 仅配置 components 入口 alias，其他包由 workspace 自然解析. Approval: 寸止 }}
 export default defineConfig({
   plugins: [
     vue(),

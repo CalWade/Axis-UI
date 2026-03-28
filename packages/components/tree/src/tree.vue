@@ -110,7 +110,6 @@ watch(
   () => props.data,
   (data: TreeOption[]) => {
     tree.value = createTree(data)
-    console.log('tree.value', tree.value)
   },
   { immediate: true }
 )

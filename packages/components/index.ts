@@ -1,6 +1,5 @@
 import type { App } from 'vue'
 
-// {{ AURA-X: Create - 创建组件库统一入口，支持全量引入和按需引入 }}
 // 导入样式
 import '@axis-ui/theme-chalk/src/index.scss'
 import Icon from './icon'

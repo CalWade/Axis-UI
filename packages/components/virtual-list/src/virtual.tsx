@@ -1,23 +1,10 @@
 import { createNamespace } from '@axis-ui/utils'
 import { computed, defineComponent, onMounted, reactive, ref, watch } from 'vue'
+import { virtualListProps } from './virtual-list'
 
 export default defineComponent({
   name: 'AxVirtualList',
-  //这个props部分代码应该抽出去、加个类型再拿回来，时间原因暂时不处理
-  props: {
-    size: {
-      type: Number,
-      default: 32,
-    },
-    remain: {
-      default: 8,
-      type: Number,
-    },
-    items: {
-      type: Array,
-      default: () => [],
-    },
-  },
+  props: virtualListProps,
   setup(props, { slots }) {
     const bem = createNamespace('vl')
     const wrapperRef = ref<HTMLElement>()

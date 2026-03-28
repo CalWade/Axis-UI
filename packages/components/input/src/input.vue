@@ -29,7 +29,7 @@
           <ax-icon
             :size="24"
             v-if="showPwdVisible"
-            @click="hadnlePasswordVisible"
+            @click="handlePasswordVisible"
           >
             <i-codex:checklist></i-codex:checklist>
           </ax-icon>
@@ -102,7 +102,7 @@ const focus = async () => {
 }
 
 const passwordVisible = ref(false)
-const hadnlePasswordVisible = () => {
+const handlePasswordVisible = () => {
   passwordVisible.value = !passwordVisible.value
   focus()
 }

@@ -64,13 +64,14 @@ export function createNamespace(name: string) {
 }
 
 /**
-const bem = createNamespace('tree')
-console.log(bem.b()) // ax-tree
-console.log(bem.e('item')) // ax-tree__item
-console.log(bem.m('active')) // ax-tree--active
-console.log(bem.be('node', 'item')) // ax-tree-node__item
-console.log(bem.em('item', 'active')) // ax-tree__item--active
-console.log(bem.bm('node', 'active')) // ax-tree-node--active
-console.log(bem.bem('node', 'item', 'active')) // ax-tree-node__item--active
-console.log(bem.is('selected', true)) // is-selected
-**/
+ * 用法示例：
+ * const bem = createNamespace('tree')
+ * bem.b()                          → 'ax-tree'
+ * bem.e('item')                    → 'ax-tree__item'
+ * bem.m('active')                  → 'ax-tree--active'
+ * bem.be('node', 'item')           → 'ax-tree-node__item'
+ * bem.em('item', 'active')         → 'ax-tree__item--active'
+ * bem.bm('node', 'active')         → 'ax-tree-node--active'
+ * bem.bem('node', 'item', 'active') → 'ax-tree-node__item--active'
+ * bem.is('selected', true)          → 'is-selected'
+ */
