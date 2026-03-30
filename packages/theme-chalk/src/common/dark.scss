@@ -1,0 +1,39 @@
+// ========================================
+// Axis-UI Dark Theme
+// ========================================
+// 通过 :root[data-theme="dark"] 覆盖 CSS Variables 实现暗色主题。
+// 使用方式：document.documentElement.setAttribute('data-theme', 'dark')
+
+:root[data-theme='dark'] {
+  // 主色调（暗色下略微降低饱和度）
+  --ax-color-primary: #ff8aa4;
+  --ax-color-primary-light: #3d2833;
+  --ax-color-primary-dark: #ffb3c6;
+
+  // 功能色（暗色下适配）
+  --ax-color-success: #7ecfaa;
+  --ax-color-warning: #e6b896;
+  --ax-color-danger: #e6959c;
+  --ax-color-info: #9b8daf;
+
+  // 基础色
+  --ax-color-white: #1a1a2e;
+  --ax-color-black: #e8e0ed;
+  --ax-color-secondary: #2d2541;
+  --ax-color-accent: #4a2d42;
+
+  // 背景 & 文字
+  --ax-bg-color: #1a1a2e;
+  --ax-text-color: #e8e0ed;
+  --ax-text-color-secondary: #9b8daf;
+
+  // 边框
+  --ax-border-color: rgba(255, 138, 164, 0.2);
+  --ax-border-color-hover: #ff8aa4;
+
+  // 阴影（暗色下用更深的阴影）
+  --ax-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --ax-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --ax-shadow-focus: 0 4px 16px rgba(255, 138, 164, 0.2),
+    0 0 0 2px rgba(255, 138, 164, 0.15);
+}
