@@ -13,7 +13,7 @@ export const virtualListProps = {
   },
   /** 数据列表 */
   items: {
-    type: Array as PropType<any[]>,
+    type: Array as PropType<unknown[]>,
     default: () => [],
   },
 } as const
