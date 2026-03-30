@@ -21,12 +21,16 @@ global.IntersectionObserver = vi.fn().mockImplementation(() => ({
   disconnect: vi.fn(),
 }))
 
-// 模拟ResizeObserver
-global.ResizeObserver = vi.fn().mockImplementation(() => ({
-  observe: vi.fn(),
-  unobserve: vi.fn(),
-  disconnect: vi.fn(),
-}))
+// 模拟ResizeObserver（需要用 class 才能 new）
+global.ResizeObserver = class ResizeObserver {
+  private callback: ResizeObserverCallback
+  constructor(callback: ResizeObserverCallback) {
+    this.callback = callback
+  }
+  observe = vi.fn()
+  unobserve = vi.fn()
+  disconnect = vi.fn()
+} as unknown as typeof ResizeObserver
 
 // 模拟window对象的一些常用方法
 Object.defineProperty(window, 'matchMedia', {
