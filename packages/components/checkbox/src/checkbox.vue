@@ -36,7 +36,9 @@ const model = computed({
     return props.modelValue
   },
   set(val) {
-    emit('update:modelValue', val)
+    if (val !== undefined) {
+      emit('update:modelValue', val)
+    }
   },
 })
 

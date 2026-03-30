@@ -15,7 +15,7 @@ describe('AxCheckbox', () => {
     const wrapper = mount(AxCheckbox, {
       props: {
         modelValue: false,
-        'onUpdate:modelValue': (e: boolean) => wrapper.setProps({ modelValue: e }),
+        'onUpdate:modelValue': (e: boolean | string | number) => wrapper.setProps({ modelValue: e }),
       },
     })
     expect(wrapper.find('input').element.checked).toBe(false)
@@ -92,7 +92,7 @@ describe('AxCheckbox', () => {
       props: {
         modelValue: false,
         disabled: true,
-        'onUpdate:modelValue': (e: boolean) => wrapper.setProps({ modelValue: e }),
+        'onUpdate:modelValue': (e: boolean | string | number) => wrapper.setProps({ modelValue: e }),
       },
     })
     // 禁用状态下原生 input 不会触发 change 事件

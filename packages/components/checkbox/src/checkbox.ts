@@ -11,8 +11,12 @@ export const checkboxProps = {
   },
 } as const
 
-export type checkboxProps = Partial<ExtractPropTypes<typeof checkboxProps>>
+export type CheckboxProps = Partial<ExtractPropTypes<typeof checkboxProps>>
 
-export const checkboxEmits = ['update:modelValue', 'change']
+export const checkboxEmits = {
+  'update:modelValue': (val: boolean | string | number) =>
+    typeof val === 'boolean' || typeof val === 'string' || typeof val === 'number',
+  change: (val: boolean) => typeof val === 'boolean',
+}
 
-export type checkboxEmits = typeof checkboxEmits
+export type CheckboxEmits = typeof checkboxEmits
