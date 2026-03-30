@@ -1,10 +1,11 @@
 import { defineConfig } from 'vitest/config'
 import { resolve } from 'path'
 import vue from '@vitejs/plugin-vue'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 import dts from 'vite-plugin-dts'
 
 export default defineConfig({
-  plugins: [vue(), dts()],
+  plugins: [vue(), vueJsx(), dts()],
   test: {
     // 启用类似Jest的测试API
     globals: true,
