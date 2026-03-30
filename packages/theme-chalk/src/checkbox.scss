@@ -2,7 +2,7 @@
 @use 'common/var' as *;
 
 @include b(checkbox) {
-  color: #606266;
+  color: var(--ax-text-color);
   font-weight: 500;
   font-size: 14px;
   position: relative;

@@ -20,7 +20,7 @@
   }
 
   @include e(error) {
-    color: $color-danger;
+    color: var(--ax-color-danger);
     font-size: 12px;
   }
 }

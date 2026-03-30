@@ -1,17 +1,59 @@
-$color-primary: #ff9eb5; // 樱花粉主色调
+// ========================================
+// Axis-UI CSS Custom Properties (Design Tokens)
+// ========================================
+// 所有颜色通过 CSS Variables 定义，支持运行时主题切换。
+// SCSS 变量仅作为默认值的引用桥梁，组件样式中统一使用 var(--ax-xxx)。
 
-// 樱花粉白主题 (温暖柔和的色调)
-$color-white: #fdf6f8; // 用作主背景 - 淡粉色背景
-$color-black: #2d1b3d; // 用作主文字 - 深紫色文字
+// 默认主题值（樱花粉）
+$_color-primary: #ff9eb5;
+$_color-white: #fdf6f8;
+$_color-black: #2d1b3d;
+$_color-success: #a8e6cf;
+$_color-warning: #ffd3b6;
+$_color-danger: #ffb3ba;
+$_color-info: #b8a9c9;
+$_color-primary-light: #ffe0e9;
+$_color-primary-dark: #ff7a9c;
+$_color-secondary: #e8d5f2;
+$_color-accent: #ffcce7;
 
-// 功能色调整为柔和的樱花色调
-$color-success: #a8e6cf; // 薄荷绿
-$color-warning: #ffd3b6; // 桃橘色
-$color-danger: #ffb3ba; // 浅玫瑰红
-$color-info: #b8a9c9; // 薰衣草紫
+// CSS Custom Properties 声明
+:root {
+  // 主色调
+  --ax-color-primary: #{$_color-primary};
+  --ax-color-primary-light: #{$_color-primary-light};
+  --ax-color-primary-dark: #{$_color-primary-dark};
 
-// 额外的樱花主题辅助色
-$color-primary-light: #ffe0e9; // 浅粉色
-$color-primary-dark: #ff7a9c; // 深粉色
-$color-secondary: #e8d5f2; // 淡紫色
-$color-accent: #ffcce7; // 粉紫色
+  // 功能色
+  --ax-color-success: #{$_color-success};
+  --ax-color-warning: #{$_color-warning};
+  --ax-color-danger: #{$_color-danger};
+  --ax-color-info: #{$_color-info};
+
+  // 基础色
+  --ax-color-white: #{$_color-white};
+  --ax-color-black: #{$_color-black};
+  --ax-color-secondary: #{$_color-secondary};
+  --ax-color-accent: #{$_color-accent};
+
+  // 背景 & 文字
+  --ax-bg-color: #{$_color-white};
+  --ax-text-color: #{$_color-black};
+  --ax-text-color-secondary: #{$_color-info};
+
+  // 边框
+  --ax-border-color: rgba(255, 158, 181, 0.3);
+  --ax-border-color-hover: #{$_color-primary};
+
+  // 阴影
+  --ax-shadow-sm: 0 2px 8px rgba(255, 158, 181, 0.1);
+  --ax-shadow-md: 0 4px 12px rgba(255, 158, 181, 0.2);
+  --ax-shadow-focus: 0 4px 16px rgba(255, 158, 181, 0.25), 0 0 0 2px rgba(255, 158, 181, 0.2);
+
+  // 圆角
+  --ax-border-radius: 8px;
+  --ax-border-radius-round: 20px;
+
+  // 过渡
+  --ax-transition-duration: 0.3s;
+}

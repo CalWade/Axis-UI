@@ -2,37 +2,30 @@
 @use 'common/var' as *;
 
 @include b(input) {
-  // 主容器样式
   position: relative;
   display: inline-flex;
   font-size: 14px;
   width: 100%;
   line-height: 1.5;
 
-  // 输入框组容器
   @include e(group) {
     display: inline-flex;
     width: 100%;
     align-items: center;
     background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(255, 158, 181, 0.3);
-    border-radius: 8px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow:
-      0 2px 8px rgba(255, 158, 181, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    border: 1px solid var(--ax-border-color);
+    border-radius: var(--ax-border-radius);
+    transition: all var(--ax-transition-duration) cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--ax-shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(10px);
     overflow: hidden;
 
     &:hover {
-      border-color: $color-primary;
-      box-shadow:
-        0 4px 12px rgba(255, 158, 181, 0.2),
-        0 0 0 1px rgba(255, 158, 181, 0.15);
+      border-color: var(--ax-border-color-hover);
+      box-shadow: var(--ax-shadow-md), 0 0 0 1px rgba(255, 158, 181, 0.15);
     }
   }
 
-  // 输入框包装器
   @include e(warpper) {
     display: flex;
     align-items: center;
@@ -42,14 +35,13 @@
     background: transparent;
   }
 
-  // 实际输入框
   @include e(inner) {
     width: 100%;
     flex: 1;
     height: 36px;
     line-height: 1;
     padding: 0;
-    color: $color-black;
+    color: var(--ax-text-color);
     background: transparent;
     border: none;
     outline: none;
@@ -60,92 +52,86 @@
     align-items: center;
 
     &::placeholder {
-      color: $color-info;
+      color: var(--ax-text-color-secondary);
       line-height: 1;
       opacity: 0.7;
     }
 
     &:focus {
-      color: $color-black;
+      color: var(--ax-text-color);
     }
 
     &:disabled {
-      color: $color-info;
+      color: var(--ax-text-color-secondary);
       cursor: not-allowed;
       background: transparent;
       opacity: 0.6;
     }
 
     &:readonly {
-      color: $color-info;
+      color: var(--ax-text-color-secondary);
       cursor: default;
     }
   }
 
-  // 前置插槽
   .ax-input__group-prepend {
     display: flex;
     align-items: center;
     padding: 0 12px;
-    background: linear-gradient(135deg, $color-primary-light, $color-secondary);
-    border-right: 1px solid rgba(255, 158, 181, 0.2);
-    border-radius: 8px 0 0 8px;
-    color: $color-black;
+    background: linear-gradient(135deg, var(--ax-color-primary-light), var(--ax-color-secondary));
+    border-right: 1px solid var(--ax-border-color);
+    border-radius: var(--ax-border-radius) 0 0 var(--ax-border-radius);
+    color: var(--ax-text-color);
     font-size: 14px;
     font-weight: 500;
     white-space: nowrap;
   }
 
-  // 后置插槽
   .ax-input__group-append {
     display: flex;
     align-items: center;
     padding: 0 12px;
-    background: linear-gradient(135deg, $color-secondary, $color-primary-light);
-    border-left: 1px solid rgba(255, 158, 181, 0.2);
-    border-radius: 0 8px 8px 0;
-    color: $color-black;
+    background: linear-gradient(135deg, var(--ax-color-secondary), var(--ax-color-primary-light));
+    border-left: 1px solid var(--ax-border-color);
+    border-radius: 0 var(--ax-border-radius) var(--ax-border-radius) 0;
+    color: var(--ax-text-color);
     font-size: 14px;
     font-weight: 500;
     white-space: nowrap;
   }
 
-  // 前置图标
   .ax-input__prefix-icon {
     display: flex;
     align-items: center;
     margin-right: 8px;
-    color: $color-info;
-    transition: all 0.3s ease;
+    color: var(--ax-text-color-secondary);
+    transition: all var(--ax-transition-duration) ease;
 
     &:hover {
-      color: $color-primary;
+      color: var(--ax-color-primary);
       transform: scale(1.1);
     }
   }
 
-  // 后置图标
   .ax-input__suffix-icon {
     display: flex;
     align-items: center;
     margin-left: 8px;
-    color: $color-info;
-    transition: all 0.3s ease;
+    color: var(--ax-text-color-secondary);
+    transition: all var(--ax-transition-duration) ease;
     cursor: pointer;
 
     &:hover {
-      color: $color-primary;
+      color: var(--ax-color-primary);
       transform: scale(1.1);
     }
   }
 
-  // 尺寸变体
   &.ax-input--large {
     .ax-input__inner {
       height: 44px;
       font-size: 16px;
     }
-
     .ax-input__warpper {
       padding: 0 16px;
     }
@@ -156,13 +142,11 @@
       height: 32px;
       font-size: 13px;
     }
-
     .ax-input__warpper {
       padding: 0 8px;
     }
   }
 
-  // 状态样式
   @include when(disabled) {
     .ax-input__group {
       background: rgba(232, 213, 242, 0.3);
@@ -176,9 +160,8 @@
         box-shadow: none;
       }
     }
-
     .ax-input__inner {
-      color: $color-info;
+      color: var(--ax-text-color-secondary);
       cursor: not-allowed;
     }
   }
@@ -187,81 +170,68 @@
     .ax-input__group {
       background: rgba(255, 224, 233, 0.2);
       cursor: default;
-      border-color: rgba(255, 158, 181, 0.3);
+      border-color: var(--ax-border-color);
     }
-
     .ax-input__inner {
-      color: $color-info;
+      color: var(--ax-text-color-secondary);
       cursor: default;
     }
   }
 
-  // 错误状态
   &.ax-input--error {
     .ax-input__group {
-      border-color: $color-danger;
+      border-color: var(--ax-color-danger);
       box-shadow: 0 0 0 2px rgba(255, 179, 186, 0.3);
-
       &:hover {
-        border-color: $color-danger;
+        border-color: var(--ax-color-danger);
         box-shadow: 0 0 0 2px rgba(255, 179, 186, 0.4);
       }
     }
   }
 
-  // 成功状态
   &.ax-input--success {
     .ax-input__group {
-      border-color: $color-success;
+      border-color: var(--ax-color-success);
       box-shadow: 0 0 0 2px rgba(168, 230, 207, 0.3);
-
       &:hover {
-        border-color: $color-success;
+        border-color: var(--ax-color-success);
         box-shadow: 0 0 0 2px rgba(168, 230, 207, 0.4);
       }
     }
   }
 
-  // 警告状态
   &.ax-input--warning {
     .ax-input__group {
-      border-color: $color-warning;
+      border-color: var(--ax-color-warning);
       box-shadow: 0 0 0 2px rgba(255, 211, 182, 0.3);
-
       &:hover {
-        border-color: $color-warning;
+        border-color: var(--ax-color-warning);
         box-shadow: 0 0 0 2px rgba(255, 211, 182, 0.4);
       }
     }
   }
 
-  // 密码输入框特殊处理
   &.ax-input--password {
     .ax-input__suffix-icon {
       cursor: pointer;
       user-select: none;
-
       &:active {
         transform: scale(0.9);
       }
     }
   }
 
-  // 可清除的输入框
   &.ax-input--clearable {
     .ax-input__suffix-icon:hover {
-      color: $color-danger;
+      color: var(--ax-color-danger);
       transform: scale(1.1);
     }
   }
 
-  // 聚焦时的特殊效果
   .ax-input__inner:focus {
     ~ .ax-input__group {
-      border-color: $color-primary;
-      box-shadow:
-        0 4px 16px rgba(255, 158, 181, 0.25),
-        0 0 0 2px rgba(255, 158, 181, 0.2);
+      border-color: var(--ax-color-primary);
+      box-shadow: var(--ax-shadow-focus);
     }
   }
 }

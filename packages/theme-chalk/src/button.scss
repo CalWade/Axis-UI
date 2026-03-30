@@ -2,18 +2,18 @@
 @use 'common/var' as *;
 
 @include b(button) {
-  // BEM规范
   align-items: center;
   display: inline-flex;
   cursor: pointer;
   outline: none;
   border: #fafafa;
-  border-radius: 5px;
+  border-radius: var(--ax-border-radius);
   user-select: none;
   min-height: 40px;
   line-height: 1;
   vertical-align: middle;
   padding: 0 20px;
+  transition: all var(--ax-transition-duration) ease;
 
   @include m(medium) {
     padding: 0 20px;
@@ -28,32 +28,44 @@
   }
 
   @include when(disabled) {
-    // 针对不同类型处理
     &,
     &:hover,
     &:focus {
       cursor: not-allowed;
+      opacity: 0.6;
     }
   }
 
   @include when(round) {
-    border-radius: 20px;
+    border-radius: var(--ax-border-radius-round);
   }
 
   @include m(primary) {
-    // 渲染不同类型的button
-    @include button-variant($color-white, $color-primary, $color-primary);
+    color: var(--ax-color-white);
+    background: var(--ax-color-primary);
+    border-color: var(--ax-color-primary);
+
+    &:hover {
+      background: var(--ax-color-primary-dark);
+      border-color: var(--ax-color-primary-dark);
+    }
   }
 
   @include m(success) {
-    @include button-variant($color-white, $color-success, $color-success);
+    color: var(--ax-color-white);
+    background: var(--ax-color-success);
+    border-color: var(--ax-color-success);
   }
 
   @include m(warning) {
-    @include button-variant($color-white, $color-warning, $color-warning);
+    color: var(--ax-color-white);
+    background: var(--ax-color-warning);
+    border-color: var(--ax-color-warning);
   }
 
   @include m(danger) {
-    @include button-variant($color-white, $color-danger, $color-danger);
+    color: var(--ax-color-white);
+    background: var(--ax-color-danger);
+    border-color: var(--ax-color-danger);
   }
 }
