@@ -1,4 +1,6 @@
 import { withInstall } from '@axis-ui/utils'
+import '@axis-ui/theme-chalk/src/common/var.scss'
+import '@axis-ui/theme-chalk/src/input.scss'
 import _Input from './src/input.vue'
 
 export const Input = withInstall(_Input)

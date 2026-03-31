@@ -60,7 +60,8 @@ export default defineConfig({
       '@docs': resolve(__dirname, './docs'),
       'axis-ui': resolve(__dirname, './packages/components/index.ts'),
       '@axis-ui/utils': resolve(__dirname, './packages/utils/index.ts'),
-      '@axis-ui/theme-chalk': resolve(__dirname, './packages/theme-chalk/src/index.scss'),
+      '@axis-ui/theme-chalk/src': resolve(__dirname, './packages/theme-chalk/src'),
+      '@axis-ui/theme-chalk': resolve(__dirname, './packages/theme-chalk'),
     },
   },
 })

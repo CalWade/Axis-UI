@@ -1,4 +1,6 @@
 import { withInstall } from '@axis-ui/utils'
+import '@axis-ui/theme-chalk/src/common/var.scss'
+import '@axis-ui/theme-chalk/src/icon.scss'
 import _Icon from './src/icon.vue'
 
 export const Icon = withInstall(_Icon)

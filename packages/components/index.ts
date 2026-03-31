@@ -1,13 +1,11 @@
 import type { App } from 'vue'
 
-// 导入样式
-import '@axis-ui/theme-chalk/src/index.scss'
 import Icon from './icon'
 import Tree from './tree'
 import Checkbox from './checkbox'
 import Button from './button'
 import Input from './input'
-import  { FormItem,Form } from './form'
+import { FormItem, Form } from './form'
 import VirtualList from './virtual-list'
 
 // 所有组件列表
