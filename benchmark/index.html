@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Axis-UI Performance Benchmark</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 20px; background: #f5f5f5; }
+    h1 { margin-bottom: 20px; color: #333; }
+    h2 { margin: 20px 0 10px; color: #555; }
+    .controls { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+    button { padding: 8px 16px; border: 1px solid #ddd; border-radius: 6px; background: #ff9eb5; color: #fff; cursor: pointer; font-size: 14px; }
+    button:hover { opacity: 0.85; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .result { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 16px; margin-bottom: 10px; font-family: monospace; font-size: 13px; line-height: 1.8; }
+    .result .pass { color: #2ecc71; }
+    .result .warn { color: #e67e22; }
+    .result .fail { color: #e74c3c; }
+    .fps-display { position: fixed; top: 10px; right: 10px; background: rgba(0,0,0,0.8); color: #0f0; padding: 8px 12px; border-radius: 6px; font-family: monospace; font-size: 16px; z-index: 9999; }
+    #virtual-list-container { height: 400px; overflow-y: auto; border: 2px solid #ff9eb5; border-radius: 8px; background: #fff; position: relative; }
+    #virtual-list-container .scroll-bar { width: 100%; }
+    #virtual-list-container .scroll-list { position: absolute; top: 0; left: 0; width: 100%; }
+    .list-item { padding: 8px 16px; border-bottom: 1px solid #f0f0f0; }
+    .list-item:hover { background: #ffe0e9; }
+  </style>
+</head>
+<body>
+  <h1>🚀 Axis-UI Performance Benchmark</h1>
+  <div class="fps-display" id="fps-display">FPS: --</div>
+
+  <h2>VirtualList — 固定高度 100K 项</h2>
+  <div class="controls">
+    <button onclick="runFixedHeightBenchmark()">开始滚动测试</button>
+    <button onclick="stopBenchmark()">停止</button>
+  </div>
+  <div id="virtual-list-container"></div>
+  <div class="result" id="fixed-result">点击"开始滚动测试"查看 FPS 数据</div>
+
+  <h2>VirtualList — 动态高度 100K 项</h2>
+  <div class="controls">
+    <button onclick="runDynamicHeightBenchmark()">开始动态高度测试</button>
+  </div>
+  <div class="result" id="dynamic-result">点击"开始动态高度测试"查看结果</div>
+
+  <h2>Tree — 大数据量展开</h2>
+  <div class="controls">
+    <button onclick="runTreeBenchmark()">展开 1000 节点</button>
+  </div>
+  <div class="result" id="tree-result">点击"展开 1000 节点"查看耗时</div>
+
+  <h2>算法性能对比</h2>
+  <div class="controls">
+    <button onclick="runAlgorithmBenchmark()">运行全部算法测试</button>
+  </div>
+  <div class="result" id="algo-result">点击运行</div>
+
+  <script>
+    // ========================================
+    // FPS 监测
+    // ========================================
+    let fpsFrames = 0
+    let fpsLastTime = performance.now()
+    let fpsDisplay = document.getElementById('fps-display')
+    let fpsHistory = []
+    let fpsRunning = true
+
+    function updateFPS() {
+      fpsFrames++
+      const now = performance.now()
+      if (now - fpsLastTime >= 1000) {
+        const fps = Math.round(fpsFrames * 1000 / (now - fpsLastTime))
+        fpsDisplay.textContent = `FPS: ${fps}`
+        fpsHistory.push(fps)
+        fpsFrames = 0
+        fpsLastTime = now
+      }
+      if (fpsRunning) requestAnimationFrame(updateFPS)
+    }
+    requestAnimationFrame(updateFPS)
+
+    // ========================================
+    // VirtualList 模拟渲染器
+    // ========================================
+    function createVirtualList(container, items, itemHeight, isDynamic) {
+      const remain = 10
+      const containerHeight = remain * (isDynamic ? 50 : itemHeight)
+      container.style.height = containerHeight + 'px'
+      container.innerHTML = ''
+
+      const scrollBar = document.createElement('div')
+      scrollBar.className = 'scroll-bar'
+      scrollBar.style.height = items.length * (isDynamic ? 50 : itemHeight) + 'px'
+
+      const scrollList = document.createElement('div')
+      scrollList.className = 'scroll-list'
+
+      container.appendChild(scrollBar)
+      container.appendChild(scrollList)
+
+      let renderCount = 0
+
+      function render(scrollTop) {
+        const start = isDynamic
+          ? Math.floor(scrollTop / 50) // 简化：用预估高度
+          : Math.floor(scrollTop / itemHeight)
+
+        const buffer = remain
+        const renderStart = Math.max(0, start - buffer)
+        const renderEnd = Math.min(items.length, start + remain + buffer)
+
+        let html = ''
+        for (let i = renderStart; i < renderEnd; i++) {
+          const h = isDynamic ? (30 + (i % 5) * 10) : itemHeight
+          html += `<div class="list-item" style="height:${h}px">Item ${i} (${h}px)</div>`
+        }
+        scrollList.innerHTML = html
+        scrollList.style.transform = `translateY(${renderStart * (isDynamic ? 50 : itemHeight)}px)`
+        renderCount++
+      }
+
+      container.addEventListener('scroll', () => render(container.scrollTop))
+      render(0)
+
+      return { renderCount: () => renderCount }
+    }
+
+    // ========================================
+    // 测试函数
+    // ========================================
+    let scrollInterval = null
+
+    function runFixedHeightBenchmark() {
+      const container = document.getElementById('virtual-list-container')
+      const items = Array.from({ length: 100000 }, (_, i) => ({ id: i, label: `Item ${i}` }))
+
+      fpsHistory = []
+      const vl = createVirtualList(container, items, 40, false)
+
+      const resultEl = document.getElementById('fixed-result')
+      resultEl.textContent = '测试中... 自动滚动 5 秒'
+
+      // 自动滚动
+      let scrollPos = 0
+      scrollInterval = setInterval(() => {
+        scrollPos += 200
+        if (scrollPos >= items.length * 40) scrollPos = 0
+        container.scrollTop = scrollPos
+      }, 16)
+
+      setTimeout(() => {
+        stopBenchmark()
+        const avgFps = fpsHistory.length
+          ? Math.round(fpsHistory.reduce((a, b) => a + b, 0) / fpsHistory.length)
+          : 0
+        const minFps = fpsHistory.length ? Math.min(...fpsHistory) : 0
+        const cls = avgFps >= 55 ? 'pass' : avgFps >= 30 ? 'warn' : 'fail'
+
+        resultEl.innerHTML = `
+          <span class="${cls}">■</span> 固定高度 100K 项滚动测试<br>
+          平均 FPS: <strong class="${cls}">${avgFps}</strong><br>
+          最低 FPS: <strong>${minFps}</strong><br>
+          渲染次数: ${vl.renderCount()}<br>
+          FPS 记录: [${fpsHistory.join(', ')}]
+        `
+      }, 5000)
+    }
+
+    function runDynamicHeightBenchmark() {
+      const container = document.getElementById('virtual-list-container')
+      const items = Array.from({ length: 100000 }, (_, i) => ({ id: i }))
+
+      fpsHistory = []
+      const vl = createVirtualList(container, items, 50, true)
+
+      const resultEl = document.getElementById('dynamic-result')
+      resultEl.textContent = '测试中... 自动滚动 5 秒'
+
+      let scrollPos = 0
+      scrollInterval = setInterval(() => {
+        scrollPos += 200
+        if (scrollPos >= items.length * 50) scrollPos = 0
+        container.scrollTop = scrollPos
+      }, 16)
+
+      setTimeout(() => {
+        stopBenchmark()
+        const avgFps = fpsHistory.length
+          ? Math.round(fpsHistory.reduce((a, b) => a + b, 0) / fpsHistory.length)
+          : 0
+        const minFps = fpsHistory.length ? Math.min(...fpsHistory) : 0
+        const cls = avgFps >= 55 ? 'pass' : avgFps >= 30 ? 'warn' : 'fail'
+
+        resultEl.innerHTML = `
+          <span class="${cls}">■</span> 动态高度 100K 项滚动测试<br>
+          平均 FPS: <strong class="${cls}">${avgFps}</strong><br>
+          最低 FPS: <strong>${minFps}</strong><br>
+          渲染次数: ${vl.renderCount()}
+        `
+      }, 5000)
+    }
+
+    function stopBenchmark() {
+      if (scrollInterval) {
+        clearInterval(scrollInterval)
+        scrollInterval = null
+      }
+    }
+
+    function runTreeBenchmark() {
+      const resultEl = document.getElementById('tree-result')
+
+      // 创建树数据
+      let counter = 0
+      function createTree(depth, breadth) {
+        if (depth === 0) return []
+        return Array.from({ length: breadth }, () => ({
+          key: `n${counter++}`,
+          children: createTree(depth - 1, breadth),
+        }))
+      }
+
+      const data = createTree(3, 10)
+
+      // 收集所有 key
+      const allKeys = []
+      function collect(nodes) {
+        for (const n of nodes) { allKeys.push(n.key); collect(n.children) }
+      }
+      collect(data)
+
+      // 扁平化
+      const expandedKeys = new Set(allKeys)
+      const start = performance.now()
+
+      const stack = []
+      const flat = []
+      for (let i = data.length - 1; i >= 0; i--) stack.push(data[i])
+      while (stack.length) {
+        const node = stack.pop()
+        flat.push(node)
+        if (expandedKeys.has(node.key)) {
+          for (let i = node.children.length - 1; i >= 0; i--) stack.push(node.children[i])
+        }
+      }
+
+      const elapsed = performance.now() - start
+      const cls = elapsed < 10 ? 'pass' : elapsed < 50 ? 'warn' : 'fail'
+
+      resultEl.innerHTML = `
+        <span class="${cls}">■</span> Tree 展开 ${allKeys.length} 个节点<br>
+        扁平化耗时: <strong class="${cls}">${elapsed.toFixed(2)}ms</strong><br>
+        可见节点数: ${flat.length}
+      `
+    }
+
+    function runAlgorithmBenchmark() {
+      const resultEl = document.getElementById('algo-result')
+      const results = []
+
+      // 1. getTotalHeight
+      const N = 100000
+      const cache = new Map()
+      for (let i = 0; i < N * 0.3; i++) cache.set(i, 30 + Math.random() * 40)
+
+      let t = performance.now()
+      let total = 0
+      for (let i = 0; i < N; i++) total += cache.get(i) ?? 50
+      let e = performance.now() - t
+      results.push(`getTotalHeight(100K): ${e.toFixed(2)}ms`)
+
+      // 2. Binary search
+      function getOffset(idx) {
+        let o = 0
+        for (let i = 0; i < idx; i++) o += cache.get(i) ?? 50
+        return o
+      }
+
+      const scrollTop = N * 50 * 0.5
+      t = performance.now()
+      let lo = 0, hi = N - 1
+      while (lo <= hi) {
+        const mid = (lo + hi) >> 1
+        const off = getOffset(mid)
+        const h = cache.get(mid) ?? 50
+        if (off + h <= scrollTop) lo = mid + 1
+        else if (off > scrollTop) hi = mid - 1
+        else { lo = mid; break }
+      }
+      e = performance.now() - t
+      results.push(`findStartIndex(100K, mid): ${e.toFixed(2)}ms → index=${lo}`)
+
+      // 3. Fixed mode
+      t = performance.now()
+      for (let i = 0; i < 10000; i++) Math.floor(160000 / 32)
+      e = performance.now() - t
+      results.push(`10000x fixed lookup: ${e.toFixed(4)}ms`)
+
+      resultEl.innerHTML = results.map(r => `<span class="pass">■</span> ${r}`).join('<br>')
+    }
+  </script>
+</body>
+</html>
