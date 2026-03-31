@@ -31,6 +31,8 @@ export default defineConfig({
         '**/*.config.*',
         'test/**',
         'coverage/**',
+        '**/*.scss',
+        '**/*.css',
       ],
       // 覆盖率阈值
       thresholds: {
