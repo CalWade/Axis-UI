@@ -1,4 +1,6 @@
 import { withInstall } from '@axis-ui/utils'
+import '@axis-ui/theme-chalk/src/common/var.scss'
+import '@axis-ui/theme-chalk/src/form.scss'
 import _Form from './src/form.vue'
 import _FormItem from './src/form-item.vue'
 
