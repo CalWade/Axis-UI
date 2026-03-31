@@ -36,6 +36,7 @@ export default defineConfig({
           items: [
             { text: '介绍', link: '/guide/' },
             { text: '快速开始', link: '/guide/getting-started' },
+            { text: '主题定制', link: '/guide/theme' },
             { text: 'TDD 开发流程', link: '/guide/tdd-workflow' },
             { text: '组件开发规范', link: '/guide/component-guidelines' },
           ],
