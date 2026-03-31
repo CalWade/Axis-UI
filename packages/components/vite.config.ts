@@ -1,7 +1,28 @@
-import { defineConfig } from 'vite'
+import { defineConfig, Plugin } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import dts from 'vite-plugin-dts'
 import { resolve } from 'path'
+
+/**
+ * 构建时将 SCSS 源文件路径替换为编译后的 CSS 路径
+ * @axis-ui/theme-chalk/src/button.scss → @axis-ui/theme-chalk/dist/button.css
+ * 这样用户无需安装 sass，直接使用编译后的 CSS
+ */
+function scssToDistCss(): Plugin {
+  return {
+    name: 'axis-ui-scss-to-dist-css',
+    enforce: 'pre',
+    resolveId(source) {
+      if (source.includes('@axis-ui/theme-chalk/src/')) {
+        const replaced = source
+          .replace('/src/', '/dist/')
+          .replace('.scss', '.css')
+        return { id: replaced, external: true }
+      }
+      return null
+    },
+  }
+}
 
 export default defineConfig(({ mode }) => {
   const isUmd = mode === 'umd'
@@ -9,6 +30,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       vue(),
+      !isUmd && scssToDistCss(),
       // 仅在 ESM 模式下生成类型定义
       !isUmd && dts({
         tsconfigPath: '../../tsconfig.json',
