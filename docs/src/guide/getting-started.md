@@ -4,8 +4,8 @@
 
 ## 📋 环境要求
 
-- Node.js >= 16.0.0
-- pnpm >= 8.0.0
+- Node.js >= 20.19
+- pnpm >= 10
 - Vue 3.x
 
 ## 🚀 开发环境搭建
@@ -13,8 +13,8 @@
 ### 1. 克隆项目
 
 ```bash
-git clone https://github.com/your-username/axis-ui.git
-cd axis-ui
+git clone https://github.com/CalWade/Axis-UI.git
+cd Axis-UI
 ```
 
 ### 2. 安装依赖

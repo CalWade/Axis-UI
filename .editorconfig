@@ -1,0 +1,17 @@
+# https://EditorConfig.org
+# 基础排版规则的单一事实源，Prettier 与编辑器共同读取
+
+root = true
+
+[*]
+indent_style = space
+indent_size = 2
+max_line_length = 80
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# Markdown 中行尾双空格表示换行，不能自动删除
+[*.md]
+trim_trailing_whitespace = false

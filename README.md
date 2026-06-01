@@ -5,9 +5,13 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@axis-ui/components"><img src="https://img.shields.io/npm/v/@axis-ui/components.svg" alt="npm version"></a>
-  <a href="https://github.com/Calvinvv/Axis-UI/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/@axis-ui/components.svg" alt="license"></a>
-  <a href="https://github.com/Calvinvv/Axis-UI"><img src="https://img.shields.io/github/stars/Calvinvv/Axis-UI?style=social" alt="GitHub stars"></a>
+  <a href="https://www.npmjs.com/package/axis-ui"><img src="https://img.shields.io/npm/v/axis-ui.svg" alt="npm version"></a>
+  <a href="https://github.com/CalWade/Axis-UI/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/axis-ui.svg" alt="license"></a>
+  <a href="https://github.com/CalWade/Axis-UI"><img src="https://img.shields.io/github/stars/CalWade/Axis-UI?style=social" alt="GitHub stars"></a>
+</p>
+
+<p align="center">
+  📖 <a href="https://calwade.github.io/Axis-UI/">在线文档</a>
 </p>
 
 ## ✨ 特性
@@ -16,20 +20,20 @@
 - 📦 **双模式构建**: 同时支持 ESM (Tree-shaking) 和 UMD 格式
 - 🎨 **类型友好**: 提供完整的 TypeScript 类型定义
 - 🔧 **按需引入**: 支持 Resolver 自动按需加载
-- � **工程化规范**: 采用 Monorepo 架构，使用 Changesets 管理版本
+- 🏗️ **工程化规范**: 采用 Monorepo 架构，使用 Changesets 管理版本
 - 🧪 **质量保障**: 完善的测试流程（单元测试 + 冒烟测试）
 
 ## 📦 安装
 
 ```bash
 # 使用 pnpm
-pnpm add @axis-ui/components
+pnpm add axis-ui
 
 # 使用 npm
-npm install @axis-ui/components
+npm install axis-ui
 
 # 使用 yarn
-yarn add @axis-ui/components
+yarn add axis-ui
 ```
 
 ## 🔨 使用
@@ -38,8 +42,8 @@ yarn add @axis-ui/components
 
 ```typescript
 import { createApp } from 'vue'
-import AxisUI from '@axis-ui/components'
-import '@axis-ui/components/dist/style.css'
+import AxisUI from 'axis-ui'
+import 'axis-ui/dist/style.css'
 import App from './App.vue'
 
 const app = createApp(App)
@@ -56,7 +60,7 @@ app.mount('#app')
 ```typescript
 import { defineConfig } from 'vite'
 import Components from 'unplugin-vue-components/vite'
-import { AxisUIResolver } from '@axis-ui/components/resolver'
+import { AxisUIResolver } from 'axis-ui/resolver'
 
 export default defineConfig({
   plugins: [
@@ -70,9 +74,9 @@ export default defineConfig({
 ### 手动按需引入
 
 ```typescript
-import { AxIcon } from '@axis-ui/components'
+import { AxIcon } from 'axis-ui'
 // 样式文件会自动按需加载（如果使用了 Resolver），否则需手动引入
-// import '@axis-ui/components/dist/style.css' 
+// import 'axis-ui/dist/style.css'
 ```
 
 ## 📚 组件列表
@@ -91,9 +95,10 @@ import { AxIcon } from '@axis-ui/components'
 
 ## 🔗 相关链接
 
-- [GitHub 仓库](https://github.com/Calvinvv/Axis-UI)
-- [更新日志](./CHANGELOG.md)
-- [问题反馈](https://github.com/Calvinvv/Axis-UI/issues)
+- [在线文档](https://calwade.github.io/Axis-UI/)
+- [GitHub 仓库](https://github.com/CalWade/Axis-UI)
+- [更新日志](https://github.com/CalWade/Axis-UI/releases)
+- [问题反馈](https://github.com/CalWade/Axis-UI/issues)
 
 ## 🤝 参与贡献
 

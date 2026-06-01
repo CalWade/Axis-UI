@@ -105,7 +105,7 @@ test/
 - **目标**: 测试单个函数或组件
 - **范围**: 组件内部逻辑、工具函数
 - **工具**: Vitest + Vue Test Utils
-- **覆盖率要求**: 80%+
+- **覆盖率门禁**: 以 `vitest.config.ts` 中的 thresholds 为准（随测试补齐逐步上调）
 
 ```typescript
 // test/components/button/button.spec.ts
@@ -117,39 +117,13 @@ describe('AxButton', () => {
 })
 ```
 
-#### 集成测试 (Integration Tests)
+#### 冒烟测试 (Smoke Tests)
 
-- **目标**: 测试组件间的交互
-- **范围**: 父子组件通信、事件处理
-- **工具**: Vitest + Vue Test Utils
-- **覆盖率要求**: 60%+
+- **目标**: 验证构建产物可用（导出完整、物理文件齐全）
+- **工具**: `scripts/smoke-test.mjs`，在 CI 的 build 之后执行
 
-```typescript
-// test/components/button/button.integration.spec.ts
-describe('AxButton Integration', () => {
-  it('should emit click event when clicked', async () => {
-    const wrapper = mount(AxButton)
-    await wrapper.trigger('click')
-    expect(wrapper.emitted('click')).toBeTruthy()
-  })
-})
-```
-
-#### 端到端测试 (E2E Tests)
-
-- **目标**: 测试完整用户流程
-- **范围**: 关键业务流程
-- **工具**: Playwright (推荐) 或 Cypress
-- **覆盖率要求**: 核心功能 100%
-
-```typescript
-// test/e2e/button.spec.ts
-test('button click workflow', async ({ page }) => {
-  await page.goto('/components/button')
-  await page.click('[data-testid="demo-button"]')
-  await expect(page.locator('.success-message')).toBeVisible()
-})
-```
+> 集成测试与 E2E 测试目前尚未引入，属于后续规划。当前测试策略为
+> 「单元/行为测试 + 构建产物冒烟测试」两层。
 
 ## 🛠️ 开发工具配置
 
@@ -175,67 +149,22 @@ test('button click workflow', async ({ page }) => {
 
 ```bash
 # .husky/pre-commit
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-# 运行 lint-staged
-npx lint-staged
-
-# 运行测试
-pnpm test:ci
+pnpm exec lint-staged
 ```
+
+完整测试在 CI 中执行（本地提交只做增量 lint + 格式化，保持提交速度）。
 
 ### 3. CI/CD 配置
 
-```yaml
-# .github/workflows/test.yml
-name: Test
-
-on:
-  push:
-    branches: [main, develop]
-  pull_request:
-    branches: [main]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Run tests
-        run: pnpm test:ci
-
-      - name: Upload coverage
-        uses: codecov/codecov-action@v3
-        with:
-          file: ./coverage/lcov.info
-```
+CI 配置见仓库中的 [.github/workflows/test.yml](https://github.com/CalWade/Axis-UI/blob/main/.github/workflows/test.yml)，
+流水线顺序为：lint → type-check → 单元测试（含覆盖率上传 Codecov）→ 构建 → 冒烟测试 → 文档部署。
 
 ## 📊 质量指标
 
-### 1. 覆盖率要求
+### 1. 覆盖率门禁
 
-| 指标       | 要求  | 说明             |
-| ---------- | ----- | ---------------- |
-| 行覆盖率   | ≥ 80% | 代码行执行覆盖率 |
-| 分支覆盖率 | ≥ 80% | 条件分支覆盖率   |
-| 函数覆盖率 | ≥ 80% | 函数调用覆盖率   |
-| 语句覆盖率 | ≥ 80% | 语句执行覆盖率   |
+以 `vitest.config.ts` 的 `coverage.thresholds` 为唯一事实源：门禁按当前真实覆盖率设定，
+防止倒退；每补齐一块测试盲区就上调对应阈值，目标是行/语句 85%+、分支 75%+。
 
 ### 2. 性能指标
 
@@ -371,20 +300,6 @@ pnpm docs:preview
 
 ## 📈 持续改进
 
-### 1. 定期回顾
-
-- **每周回顾**: 回顾测试覆盖率和质量指标
-- **每月回顾**: 回顾开发流程和工具配置
-- **季度回顾**: 回顾整体架构和策略
-
-### 2. 工具升级
-
-- **依赖更新**: 定期更新依赖包
-- **工具优化**: 根据使用情况优化工具配置
-- **流程改进**: 根据团队反馈改进流程
-
-### 3. 知识分享
-
-- **技术分享**: 定期分享 TDD 最佳实践
-- **文档更新**: 持续更新开发文档
-- **培训计划**: 为新成员提供 TDD 培训
+- 覆盖率阈值随测试补齐逐步上调，禁止下调
+- 发现 bug 时先补一条能复现它的失败测试，再修复
+- 测试优先覆盖行为与边界，避免"测 props 回读"这类同义反复用例

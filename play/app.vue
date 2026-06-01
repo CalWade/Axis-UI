@@ -1,132 +1,38 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-// import { Key, TreeOption } from '../packages/components/tree'
+import { Key, TreeOption } from '../packages/components/tree'
 import { FormInstance } from '../packages/components/form'
 
-// function createData(level = 4, parentKey = '') {
-//   if (!level) return []
-//   const arr = new Array(20 - level).fill(0)
-//   return arr.map((_, idx: number) => {
-//     const key = parentKey + level + idx
-//     return {
-//       label: createLabel(level), // 显示的内容
-//       key, // 为了唯一性
-//       children: createData(level - 1, key), // 孩子
-//     }
-//   })
-// }
+// ---- Tree：三层静态数据 + 异步加载叶子 ----
+function createTreeData(depth = 3, parentKey = ''): TreeOption[] {
+  if (!depth) return []
+  return Array.from({ length: 3 }, (_, i) => {
+    const key = parentKey ? `${parentKey}-${i}` : `${i}`
+    return {
+      key,
+      label: `节点 ${key}`,
+      children: createTreeData(depth - 1, key),
+    }
+  })
+}
 
-// function createLabel(level: number): string {
-//   if (level === 4) return '道生一'
-//   if (level === 3) return '一生二'
-//   if (level === 2) return '二生三'
-//   if (level === 1) return '三生万物'
-//   return ''
-// }
+const treeData = ref(createTreeData())
+const selectedKeys = ref<Key[]>([])
 
-// function createData() {
-//   return [
-//     {
-//       label: nextLabel(),
-//       key: 1,
-//       isLeaf: false,
-//     },
-//     {
-//       label: nextLabel(),
-//       key: 2,
-//       isLeaf: false,
-//     },
-//   ]
-// }
-
-// function nextLabel(currentLabel?: string | number): string {
-//   if (!currentLabel) return 'Out of Tao, One is born'
-//   if (currentLabel === 'Out of Tao, One is born') return 'Out of One, Two'
-//   if (currentLabel === 'Out of One, Two') return 'Out of Two, Three'
-//   if (currentLabel === 'Out of Two, Three') {
-//     return 'Out of Three, the created universe'
-//   }
-//   if (currentLabel === 'Out of Three, the created universe') {
-//     return 'Out of Tao, One is born'
-//   }
-//   return ''
-// }
-
-// const data = ref(createData())
-
-// const data = ref<TreeOption[]>([
-//   {
-//     key: '0',
-//     label: '0',
-//     children: [
-//       {
-//         key: '0-0',
-//         label: '0-0',
-//       },
-//       {
-//         disabled: true, // 这个节点被禁用了
-//         key: '0-1',
-//         label: '0-1',
-//         children: [
-//           {
-//             label: '0-1-0',
-//             key: '0-1-0',
-//           },
-//           {
-//             label: '0-1-1',
-//             key: '0-1-1',
-//           },
-//         ],
-//       },
-//     ],
-//   },
-// ])
-
-// const handleLoad = (node: TreeOption) => {
-//   //当用户需要异步获取时，会传入孩子树不为零也不是，:on-load属性,并配套函数
-//   return new Promise<TreeOption[]>(resolve => {
-//     setTimeout(() => {
-//       resolve([
-//         //这里面的数据会作为当前正在展开的node的children属性，现在是用promise模拟数据
-//         {
-//           label: nextLabel(node.label),
-//           key: node.key + nextLabel(node.label),
-//           isLeaf: false,
-//         },
-//       ])
-//     }, 500)
-//   })
-// }
-
-// const value = ref<Key[]>([])
+// ---- Checkbox ----
 const check = ref(true)
 
-const handleChange = (val: boolean) => {
-  console.log('checkbox changed:', val)
-}
-
-const handleClick = () => {
-  console.log('按钮被点击了')
-}
-
+// ---- Input ----
 const username = ref('hello')
 
-const handleBlur = (e: FocusEvent) => {
-  console.log('输入框失去焦点了', e)
-}
-
-const handleFocus = (e: FocusEvent) => {
-  console.log('输入框获得焦点了', e)
-}
-
+// ---- Form ----
 const state = reactive({
   username: '',
   password: '',
 })
 const formRef = ref<FormInstance>()
 const validateForm = () => {
-  const form = formRef.value
-  form?.validate((valid, fields) => {
+  formRef.value?.validate((valid, fields) => {
     if (valid) {
       console.log('表单验证成功')
     } else {
@@ -135,116 +41,101 @@ const validateForm = () => {
   })
 }
 </script>
+
 <template>
-  <!-- <ax-icon :size="160" :color="'red'">
-    <i-codex:checklist></i-codex:checklist>
-  </ax-icon>
-  <ax-icon :size="160" :color="'red'">
-    <i-codex:checklist></i-codex:checklist>
-  </ax-icon>
-  <ax-tree
-    :data="data"
-    :on-load="handleLoad"
-    v-model:selected-keys="value"
-    selectabal
-    multiple
-    show-checkbox
-    :default-checked-keys="['40', '41', '42']"
-  >
-    <template #default="{ node }">{{ node.key }} - {{ node.label }}</template>
-  </ax-tree> -->
-
-  <!--selectabal:可以选择节点     multiple：可以多选节点
-     selected-keys：选中后的节点-->
-
-  <ax-checkbox
-    v-model="check"
-    :disabled="false"
-    :indeterminate="true"
-    label="属性方式传入节点"
-    @change="handleChange"
-    >插槽方式传入节点</ax-checkbox
-  >
-  <br />
-
-  <ax-button
-    @click="handleClick"
-    @mousedown="
-      () => {
-        console.log('按钮被按下了')
-      }
-    "
-    size="medium"
-    type="danger"
-    :round="true"
-    :loading="false"
-    :disabled="false"
-    icon-placement="right"
-  >
-    按钮
-    <template #icon>
-      <ax-icon>
-        <i-codex:checklist></i-codex:checklist>
-      </ax-icon>
-    </template>
-  </ax-button>
-
-  <ax-input
-    v-model="username"
-    @blur="handleBlur"
-    @focus="handleFocus"
-    placeholder="请输入用户名"
-    show-password
-    clearable
-  >
-    <template #prepend>前缀</template>
-    <template #prefixIcon>
-      <ax-icon>
-        <i-codex:checklist></i-codex:checklist>
-      </ax-icon>
-    </template>
-
-    <template #suffixIcon>
-      <ax-icon>
-        <i-codex:checklist></i-codex:checklist>
-      </ax-icon>
-    </template>
-    <template #append>后缀</template>
-  </ax-input>
-  <br />==================
-  <ax-form
-    ref="formRef"
-    :model="state"
-    :rules="{
-      username: {
-        min: 3,
-        max: 12,
-        message: '长度在3到12个字符',
-        trigger: ['blur', 'change'],
-      },
-    }"
-  >
-    <ax-form-item
-      prop="username"
-      :rules="[{ required: true, message: '用户名不能为空', trigger: 'blur' }]"
+  <section>
+    <h3>Tree（多选 + 勾选）</h3>
+    <ax-tree
+      :data="treeData"
+      v-model:selected-keys="selectedKeys"
+      selectable
+      multiple
+      show-checkbox
+      :default-expanded-keys="['0', '1']"
     >
-      <ax-input placeholder="请输入用户名" v-model="state.username"></ax-input>
-      <template #label>用户名</template>
-    </ax-form-item>
-    <ax-form-item
-      prop="password"
-      :rules="[{ required: true, message: '请输入密码', trigger: 'blur' }]"
-    >
-      <ax-input
-        placeholder="请输入密码"
-        v-model="state.password"
-        type="password"
-      ></ax-input>
-      <template #label>密码</template>
-    </ax-form-item>
-    <ax-button @click="validateForm"></ax-button>
-    <ax-button @click="validateForm" size="medium" type="danger" :round="true">
+      <template #default="{ node }">{{ node.label }}</template>
+    </ax-tree>
+    <p>已选中：{{ selectedKeys }}</p>
+  </section>
+
+  <section>
+    <h3>Checkbox</h3>
+    <ax-checkbox v-model="check" :indeterminate="false" label="属性方式传入">
+      插槽方式传入
+    </ax-checkbox>
+  </section>
+
+  <section>
+    <h3>Button</h3>
+    <ax-button type="danger" round icon-placement="right">
       按钮
+      <template #icon>
+        <ax-icon>
+          <i-codex:checklist></i-codex:checklist>
+        </ax-icon>
+      </template>
     </ax-button>
-  </ax-form>
+  </section>
+
+  <section>
+    <h3>Input</h3>
+    <ax-input
+      v-model="username"
+      placeholder="请输入用户名"
+      show-password
+      clearable
+    >
+      <template #prepend>前缀</template>
+      <template #suffixIcon>
+        <ax-icon>
+          <i-codex:checklist></i-codex:checklist>
+        </ax-icon>
+      </template>
+      <template #append>后缀</template>
+    </ax-input>
+  </section>
+
+  <section>
+    <h3>Form</h3>
+    <ax-form
+      ref="formRef"
+      :model="state"
+      :rules="{
+        username: {
+          min: 3,
+          max: 12,
+          message: '长度在3到12个字符',
+          trigger: ['blur', 'change'],
+        },
+      }"
+    >
+      <ax-form-item
+        prop="username"
+        :rules="[
+          { required: true, message: '用户名不能为空', trigger: 'blur' },
+        ]"
+      >
+        <template #label>用户名</template>
+        <ax-input v-model="state.username" placeholder="请输入用户名" />
+      </ax-form-item>
+      <ax-form-item
+        prop="password"
+        :rules="[{ required: true, message: '请输入密码', trigger: 'blur' }]"
+      >
+        <template #label>密码</template>
+        <ax-input
+          v-model="state.password"
+          placeholder="请输入密码"
+          type="password"
+        />
+      </ax-form-item>
+      <ax-button type="danger" round @click="validateForm">提交</ax-button>
+    </ax-form>
+  </section>
 </template>
+
+<style scoped>
+section {
+  margin-bottom: 24px;
+}
+</style>

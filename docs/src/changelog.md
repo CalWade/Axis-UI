@@ -1,56 +1,20 @@
 # 更新日志
 
-## [1.0.0] - 2024-01-15
+版本发布由 [Changesets](https://github.com/changesets/changesets) 管理，完整、准确的发布记录见：
 
-### ✨ 新增功能
+- [GitHub Releases](https://github.com/CalWade/Axis-UI/releases)
+- 各包发布时自动生成的 CHANGELOG
 
-- 🎉 初始版本发布
-- 🧪 集成 Vitest 测试框架
-- 📚 基于 VitePress 的文档站点
-- 🎨 Icon 图标组件
-- 🔧 完整的 TDD 开发环境
+## 当前状态（0.0.x）
 
-### 🏗️ 技术栈
+已实现 7 个组件与配套工程链路：
 
-- Vue 3 + TypeScript
-- Vite + Vitest
-- VitePress 文档生成
-- pnpm workspace Monorepo
-- ESLint + Prettier + Husky
+- **组件**：Button、Icon、Input、Checkbox、Form / FormItem、Tree、VirtualList
+- **构建**：ESM（preserveModules，支持 Tree-shaking）+ UMD 双格式，按组件粒度的 subpath exports
+- **按需引入**：`AxisUIResolver` 对接 unplugin-vue-components，自动解析组件与样式
+- **质量**：Vitest 单元测试 + 覆盖率门禁 + 构建产物冒烟测试，CI 自动执行
+- **文档**：VitePress 文档站（当前站点）
 
-### 📦 组件
+## 反馈
 
-- **Icon**: 基于字体的图标组件，支持自定义大小和颜色
-
-### 🛠️ 开发工具
-
-- 测试覆盖率报告
-- 代码质量检查
-- Git hooks 集成
-- 自动化 CI/CD
-
-## 计划中的功能
-
-### 🚀 即将推出
-
-- [ ] Button 按钮组件
-- [ ] Input 输入框组件
-- [ ] Card 卡片组件
-- [ ] Modal 模态框组件
-- [ ] 主题定制系统
-- [ ] 国际化支持
-
-### 📋 开发计划
-
-- [ ] 完善组件测试用例
-- [ ] 添加 E2E 测试
-- [ ] 优化文档站点性能
-- [ ] 建立组件设计规范
-- [ ] 社区贡献指南
-
-## 贡献
-
-欢迎提交 Issue 和 Pull Request！
-
-- [GitHub Issues](https://github.com/your-username/axis-ui/issues)
-- [GitHub Discussions](https://github.com/your-username/axis-ui/discussions)
+- [GitHub Issues](https://github.com/CalWade/Axis-UI/issues)
