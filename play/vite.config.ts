@@ -46,7 +46,11 @@ export default defineConfig({
         replacement: resolve(__dirname, '../packages/theme-chalk/src/$1.scss'),
       },
       {
-        find: '@axis-ui/theme-chalk',
+        find: /^@axis-ui\/theme-chalk\/src\/(.*)$/,
+        replacement: resolve(__dirname, '../packages/theme-chalk/src/$1'),
+      },
+      {
+        find: /^@axis-ui\/theme-chalk$/,
         replacement: resolve(
           __dirname,
           '../packages/theme-chalk/src/index.scss'
