@@ -44,6 +44,9 @@ export default defineConfig(({ mode }) => {
           cleanVueFileName: true,
           include: ['**/*.ts', '**/*.tsx', '**/*.vue'],
           exclude: ['node_modules', 'dist', '**/*.spec.ts', 'vite.config.ts'],
+          // 声明文件中保留 @axis-ui/* 裸模块名，禁止 tsconfig paths
+          // 把它重写成指向 monorepo 源码的相对路径（发布后会悬空）
+          aliasesExclude: [/^@axis-ui\//],
         }),
     ],
     build: {
@@ -62,10 +65,16 @@ export default defineConfig(({ mode }) => {
         formats: isUmd ? ['umd'] : ['es'],
       },
       rollupOptions: {
-        // 确保外部依赖不打包
+        // ESM 产物外部化所有运行时依赖（由包管理器安装）；
+        // UMD 面向 CDN 单文件场景，除 vue 外全部打包进产物
         external: isUmd
           ? ['vue']
-          : ['vue', '@axis-ui/utils', '@axis-ui/theme-chalk'],
+          : [
+              'vue',
+              'async-validator',
+              '@axis-ui/utils',
+              '@axis-ui/theme-chalk',
+            ],
         output: {
           exports: 'named',
           globals: {

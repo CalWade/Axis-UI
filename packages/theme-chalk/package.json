@@ -1,19 +1,32 @@
 {
   "name": "@axis-ui/theme-chalk",
   "version": "1.0.1",
-  "description": "Axis-UI theme styles (workspace only)",
-  "private": false,
-  "main": "src/index.scss",
-  "publishConfig": {
-    "access": "public"
-  },
+  "description": "Axis-UI default theme (SCSS source + compiled CSS)",
   "author": "韦贺文",
   "license": "MIT",
-  "scripts": {
-    "build": "sass src:dist --no-source-map"
+  "homepage": "https://calwade.github.io/Axis-UI/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CalWade/Axis-UI.git",
+    "directory": "packages/theme-chalk"
+  },
+  "main": "./dist/index.css",
+  "style": "./dist/index.css",
+  "sideEffects": true,
+  "exports": {
+    ".": "./dist/index.css",
+    "./dist/*": "./dist/*",
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
   },
   "files": [
     "dist",
     "src"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rm -rf dist && sass src:dist --no-source-map"
+  }
 }

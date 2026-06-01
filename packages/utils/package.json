@@ -1,28 +1,40 @@
 {
   "name": "@axis-ui/utils",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "description": "Axis-UI internal utilities",
-  "private": false,
-  "main": "./dist/index.umd.js",
+  "author": "韦贺文",
+  "license": "MIT",
+  "homepage": "https://calwade.github.io/Axis-UI/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CalWade/Axis-UI.git",
+    "directory": "packages/utils"
+  },
+  "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
   "types": "./dist/types/index.d.ts",
+  "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.umd.js"
-    }
+      "import": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18"
   },
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build": "vite build"
+    "build": "vite build && node ../../scripts/fix-dts-extensions.mjs dist/types"
   },
-  "files": [
-    "dist"
-  ],
-  "author": "韦贺文",
-  "license": "MIT"
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  }
 }

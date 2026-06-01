@@ -1,6 +1,6 @@
 @use 'mixins/mixins' as *;
 @use 'common/var' as *;
-@use './form-item.scss';
+@use './form-item';
 
 @include b(form) {
   // Form 组件的基础样式
