@@ -1,87 +1,88 @@
 import { describe, it, expect } from 'vitest'
-import { defineComponent, h } from 'vue'
+import { mount } from '@vue/test-utils'
+import { h } from 'vue'
+import VirtualList from '@packages/components/virtual-list'
 import { virtualListProps } from '@packages/components/virtual-list/src/virtual-list'
 
-// 创建一个模拟的 VirtualList 组件用于测试 props
-const MockVirtualList = defineComponent({
-  name: 'AxVirtualList',
-  props: {
-    size: {
-      type: Number,
-      default: 32,
-    },
-    remain: {
-      type: Number,
-      default: 8,
-    },
-    items: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  setup(props, { slots }) {
-    return () => h('div', { class: 'ax-vl' }, slots.default ? slots.default({ node: props.items[0] }) : '')
-  },
-})
-
-const createMockItems = (count: number) =>
+// 测试真实的 VirtualList 组件（packages/components/virtual-list/src/virtual.tsx）。
+// happy-dom 不做真实布局，但 scrollTop 可写、style 可读，
+// 足以驱动"scrollTop -> 渲染窗口/偏移量"这条纯计算链路。
+const createItems = (count: number) =>
   Array.from({ length: count }, (_, i) => ({ id: i, label: `Item ${i}` }))
 
+const mountList = (items: unknown[], props: Record<string, unknown> = {}) =>
+  mount(VirtualList, {
+    props: { items, size: 32, remain: 8, ...props },
+    slots: {
+      // 作用域插槽契约：默认插槽以 { node } 形式拿到行数据
+      default: (scope: { node: { label: string } }) =>
+        h('div', { class: 'vl-item' }, scope.node.label),
+    },
+  })
+
+const itemTexts = (wrapper: ReturnType<typeof mountList>) =>
+  wrapper.findAll('.vl-item').map(node => node.text())
+
 describe('AxVirtualList', () => {
-  // 测试组件名称
-  it('has correct component name', async () => {
-    const { mount } = await import('@vue/test-utils')
-    const wrapper = mount(MockVirtualList, {
-      props: {
-        items: [],
-        size: 32,
-        remain: 8,
-      },
-    })
-    expect(wrapper.vm.$options.name).toBe('AxVirtualList')
+  it('初始只渲染可视区 + 后缓冲区，而非全部数据', () => {
+    const wrapper = mountList(createItems(100))
+    const texts = itemTexts(wrapper)
+
+    // start=0 时无前缓冲，渲染 remain(8) + 后缓冲 min(remain, 剩余)=8 共 16 条
+    expect(texts).toHaveLength(16)
+    expect(texts[0]).toBe('Item 0')
+    expect(texts.at(-1)).toBe('Item 15')
   })
 
-  // 测试 items 属性
-  it('accepts items prop', async () => {
-    const { mount } = await import('@vue/test-utils')
-    const items = createMockItems(50)
-    const wrapper = mount(MockVirtualList, {
-      props: { items },
-    })
-    expect(wrapper.props('items')).toEqual(items)
+  it('容器高度为 remain*size，滚动条占位高度为 items.length*size', () => {
+    const wrapper = mountList(createItems(100))
+
+    expect(wrapper.element.style.height).toBe('256px') // 8 * 32
+    expect(
+      (wrapper.find('.ax-vl__scroll-bar').element as HTMLElement).style.height
+    ).toBe('3200px') // 100 * 32
   })
 
-  // 测试 size 属性
-  it('accepts size prop', async () => {
-    const { mount } = await import('@vue/test-utils')
-    const wrapper = mount(MockVirtualList, {
-      props: {
-        items: createMockItems(10),
-        size: 50,
-      },
-    })
-    expect(wrapper.props('size')).toBe(50)
+  it('滚动到中部时渲染三屏窗口，并用 translate3d 对齐偏移', async () => {
+    const wrapper = mountList(createItems(100))
+
+    // 滚过 10 行：start=10，前后缓冲各 8 -> 渲染 Item 2 ~ Item 25
+    wrapper.element.scrollTop = 320
+    await wrapper.trigger('scroll')
+
+    const texts = itemTexts(wrapper)
+    expect(texts).toHaveLength(24)
+    expect(texts[0]).toBe('Item 2')
+    expect(texts.at(-1)).toBe('Item 25')
+
+    // 偏移量 = (start - prev) * size = (10 - 8) * 32
+    expect(
+      (wrapper.find('.ax-vl__scroll-list').element as HTMLElement).style
+        .transform
+    ).toBe('translate3d(0,64px,0)')
   })
 
-  // 测试 remain 属性
-  it('accepts remain prop', async () => {
-    const { mount } = await import('@vue/test-utils')
-    const wrapper = mount(MockVirtualList, {
-      props: {
-        items: createMockItems(10),
-        remain: 5,
-      },
-    })
-    expect(wrapper.props('remain')).toBe(5)
+  it('滚动到底部时不越界，渲染到最后一条为止', async () => {
+    const wrapper = mountList(createItems(100))
+
+    // 滚到最底：start=92，后缓冲为 0，前缓冲 8 -> Item 84 ~ Item 99
+    wrapper.element.scrollTop = (100 - 8) * 32
+    await wrapper.trigger('scroll')
+
+    const texts = itemTexts(wrapper)
+    expect(texts).toHaveLength(16)
+    expect(texts[0]).toBe('Item 84')
+    expect(texts.at(-1)).toBe('Item 99')
   })
 
-  // 测试 default props
-  it('has correct default props', async () => {
-    const { mount } = await import('@vue/test-utils')
-    const wrapper = mount(MockVirtualList)
-    expect(wrapper.props('size')).toBe(32)
-    expect(wrapper.props('remain')).toBe(8)
-    expect(wrapper.props('items')).toEqual([])
+  it('items 变化后重新计算滚动条占位高度', async () => {
+    const wrapper = mountList(createItems(100))
+
+    await wrapper.setProps({ items: createItems(50) })
+
+    expect(
+      (wrapper.find('.ax-vl__scroll-bar').element as HTMLElement).style.height
+    ).toBe('1600px') // 50 * 32
   })
 })
 
@@ -109,9 +110,11 @@ describe('AxVirtualList Dynamic Height Mode', () => {
   // 动态高度模式下使用 estimatedSize 计算容器和滚动条高度
   it('uses estimatedSize for scroll bar height when size is 0', async () => {
     const { mount } = await import('@vue/test-utils')
-    const _VirtualList = (await import('@packages/components/virtual-list/src/virtual')).default
+    const _VirtualList = (
+      await import('@packages/components/virtual-list/src/virtual')
+    ).default
 
-    const items = createMockItems(100)
+    const items = createItems(100)
     const wrapper = mount(_VirtualList, {
       props: { items, estimatedSize: 40, remain: 8 },
     })
@@ -119,31 +122,40 @@ describe('AxVirtualList Dynamic Height Mode', () => {
     // 滚动条高度应为 items.length * estimatedSize
     const scrollBar = wrapper.find('.ax-vl__scroll-bar')
     expect(scrollBar.exists()).toBe(true)
-    expect((scrollBar.element as HTMLElement).style.height).toBe(`${100 * 40}px`)
+    expect((scrollBar.element as HTMLElement).style.height).toBe(
+      `${100 * 40}px`
+    )
   })
 
   it('uses size for scroll bar height in fixed mode (backward compat)', async () => {
     const { mount } = await import('@vue/test-utils')
-    const _VirtualList = (await import('@packages/components/virtual-list/src/virtual')).default
+    const _VirtualList = (
+      await import('@packages/components/virtual-list/src/virtual')
+    ).default
 
-    const items = createMockItems(100)
+    const items = createItems(100)
     const wrapper = mount(_VirtualList, {
       props: { items, size: 32, remain: 8 },
     })
 
     const scrollBar = wrapper.find('.ax-vl__scroll-bar')
-    expect((scrollBar.element as HTMLElement).style.height).toBe(`${100 * 32}px`)
+    expect((scrollBar.element as HTMLElement).style.height).toBe(
+      `${100 * 32}px`
+    )
   })
 
   it('renders visible items in dynamic mode', async () => {
     const { mount } = await import('@vue/test-utils')
-    const _VirtualList = (await import('@packages/components/virtual-list/src/virtual')).default
+    const _VirtualList = (
+      await import('@packages/components/virtual-list/src/virtual')
+    ).default
 
-    const items = createMockItems(100)
+    const items = createItems(100)
     const wrapper = mount(_VirtualList, {
       props: { items, estimatedSize: 40, remain: 5 },
       slots: {
-        default: (slotProps: { node: { label: string } }) => h('div', { class: 'item' }, slotProps.node.label),
+        default: (slotProps: { node: { label: string } }) =>
+          h('div', { class: 'item' }, slotProps.node.label),
       },
     })
 
@@ -155,13 +167,16 @@ describe('AxVirtualList Dynamic Height Mode', () => {
 
   it('wraps items with data-virtual-index in dynamic mode', async () => {
     const { mount } = await import('@vue/test-utils')
-    const _VirtualList = (await import('@packages/components/virtual-list/src/virtual')).default
+    const _VirtualList = (
+      await import('@packages/components/virtual-list/src/virtual')
+    ).default
 
-    const items = createMockItems(20)
+    const items = createItems(20)
     const wrapper = mount(_VirtualList, {
       props: { items, estimatedSize: 40, remain: 5 },
       slots: {
-        default: (slotProps: { node: { label: string } }) => h('div', { class: 'item' }, slotProps.node.label),
+        default: (slotProps: { node: { label: string } }) =>
+          h('div', { class: 'item' }, slotProps.node.label),
       },
     })
 
@@ -174,13 +189,16 @@ describe('AxVirtualList Dynamic Height Mode', () => {
 
   it('does NOT wrap items with data-virtual-index in fixed mode', async () => {
     const { mount } = await import('@vue/test-utils')
-    const _VirtualList = (await import('@packages/components/virtual-list/src/virtual')).default
+    const _VirtualList = (
+      await import('@packages/components/virtual-list/src/virtual')
+    ).default
 
-    const items = createMockItems(20)
+    const items = createItems(20)
     const wrapper = mount(_VirtualList, {
       props: { items, size: 32, remain: 5 },
       slots: {
-        default: (slotProps: { node: { label: string } }) => h('div', { class: 'item' }, slotProps.node.label),
+        default: (slotProps: { node: { label: string } }) =>
+          h('div', { class: 'item' }, slotProps.node.label),
       },
     })
 
@@ -191,9 +209,11 @@ describe('AxVirtualList Dynamic Height Mode', () => {
 
   it('sets container height based on remain * estimatedSize', async () => {
     const { mount } = await import('@vue/test-utils')
-    const _VirtualList = (await import('@packages/components/virtual-list/src/virtual')).default
+    const _VirtualList = (
+      await import('@packages/components/virtual-list/src/virtual')
+    ).default
 
-    const items = createMockItems(50)
+    const items = createItems(50)
     const wrapper = mount(_VirtualList, {
       props: { items, estimatedSize: 60, remain: 10 },
     })
@@ -205,9 +225,11 @@ describe('AxVirtualList Dynamic Height Mode', () => {
 
   it('sets container height based on remain * size in fixed mode', async () => {
     const { mount } = await import('@vue/test-utils')
-    const _VirtualList = (await import('@packages/components/virtual-list/src/virtual')).default
+    const _VirtualList = (
+      await import('@packages/components/virtual-list/src/virtual')
+    ).default
 
-    const items = createMockItems(50)
+    const items = createItems(50)
     const wrapper = mount(_VirtualList, {
       props: { items, size: 32, remain: 10 },
     })
@@ -219,9 +241,11 @@ describe('AxVirtualList Dynamic Height Mode', () => {
 
   it('cleans up stale cache entries when items shrink', async () => {
     const { mount } = await import('@vue/test-utils')
-    const _VirtualList = (await import('@packages/components/virtual-list/src/virtual')).default
+    const _VirtualList = (
+      await import('@packages/components/virtual-list/src/virtual')
+    ).default
 
-    const items = createMockItems(50)
+    const items = createItems(50)
     const wrapper = mount(_VirtualList, {
       props: { items, estimatedSize: 40, remain: 5 },
     })
@@ -231,7 +255,7 @@ describe('AxVirtualList Dynamic Height Mode', () => {
     expect((scrollBar.element as HTMLElement).style.height).toBe('2000px')
 
     // 缩小 items
-    await wrapper.setProps({ items: createMockItems(20) })
+    await wrapper.setProps({ items: createItems(20) })
 
     // 滚动条高度应该更新为 20 * 40 = 800
     expect((scrollBar.element as HTMLElement).style.height).toBe('800px')
@@ -239,9 +263,11 @@ describe('AxVirtualList Dynamic Height Mode', () => {
 
   it('falls back to 32 when both size and estimatedSize are 0', async () => {
     const { mount } = await import('@vue/test-utils')
-    const _VirtualList = (await import('@packages/components/virtual-list/src/virtual')).default
+    const _VirtualList = (
+      await import('@packages/components/virtual-list/src/virtual')
+    ).default
 
-    const items = createMockItems(10)
+    const items = createItems(10)
     const wrapper = mount(_VirtualList, {
       props: { items, remain: 5 },
     })

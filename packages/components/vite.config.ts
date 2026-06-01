@@ -1,5 +1,6 @@
 import { defineConfig, Plugin } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 import dts from 'vite-plugin-dts'
 import { resolve } from 'path'
 
@@ -31,15 +32,19 @@ export default defineConfig(({ mode }) => {
     plugins: [
       vue(),
       !isUmd && scssToDistCss(),
+      // TSX 组件（virtual-list 等）必须用 Vue JSX 转换，
+      // 否则 esbuild 默认按 React JSX 编译，产物运行时直接报错
+      vueJsx(),
       // 仅在 ESM 模式下生成类型定义
-      !isUmd && dts({
-        tsconfigPath: '../../tsconfig.json',
-        outDir: 'dist/types',
-        entryRoot: '.', // 源码根目录
-        cleanVueFileName: true,
-        include: ['**/*.ts', '**/*.vue'],
-        exclude: ['node_modules', 'dist', '**/*.spec.ts', 'vite.config.ts']
-      })
+      !isUmd &&
+        dts({
+          tsconfigPath: '../../tsconfig.json',
+          outDir: 'dist/types',
+          entryRoot: '.', // 源码根目录
+          cleanVueFileName: true,
+          include: ['**/*.ts', '**/*.tsx', '**/*.vue'],
+          exclude: ['node_modules', 'dist', '**/*.spec.ts', 'vite.config.ts'],
+        }),
     ],
     build: {
       outDir: 'dist',
@@ -53,8 +58,8 @@ export default defineConfig(({ mode }) => {
             },
         name: 'AxisUI',
         // ESM: 保留文件名; UMD: 固定文件名
-        fileName: (format) => format === 'es' ? '[name].js' : 'index.umd.js',
-        formats: isUmd ? ['umd'] : ['es']
+        fileName: format => (format === 'es' ? '[name].js' : 'index.umd.js'),
+        formats: isUmd ? ['umd'] : ['es'],
       },
       rollupOptions: {
         // 确保外部依赖不打包
@@ -64,17 +69,18 @@ export default defineConfig(({ mode }) => {
         output: {
           exports: 'named',
           globals: {
-            vue: 'Vue'
+            vue: 'Vue',
           },
           // ESM 模式开启 preserveModules 以支持 Tree-shaking
           preserveModules: !isUmd,
           preserveModulesRoot: __dirname,
-          assetFileNames: (assetInfo) => {
-            if (assetInfo.name && assetInfo.name.endsWith('.css')) return 'style.css'
+          assetFileNames: assetInfo => {
+            if (assetInfo.name && assetInfo.name.endsWith('.css'))
+              return 'style.css'
             return assetInfo.name as string
-          }
-        }
-      }
-    }
+          },
+        },
+      },
+    },
   }
 })
