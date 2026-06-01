@@ -6,7 +6,7 @@
       </div>
 
       <div :class="[bem.e('warpper')]">
-        <span v-if="slots.prefixIcon">
+        <span v-if="slots.prefixIcon" :class="bem.e('prefix-icon')">
           <slot name="prefixIcon"></slot>
         </span>
 
@@ -24,17 +24,22 @@
           :readonly="props.readonly"
         />
 
-        <span v-if="slots.suffixIcon">
+        <!-- 清空/密码切换图标不依赖 suffixIcon 插槽，各自按状态渲染 -->
+        <span
+          v-if="slots.suffixIcon || showPwdVisible || showClear"
+          :class="bem.e('suffix-icon')"
+        >
           <slot name="suffixIcon"></slot>
           <ax-icon
-            :size="24"
+            :size="16"
             v-if="showPwdVisible"
             @click="handlePasswordVisible"
           >
-            <i-codex:checklist></i-codex:checklist>
+            <eye-icon v-if="passwordVisible" />
+            <eye-off-icon v-else />
           </ax-icon>
-          <ax-icon :size="24" v-if="showClear" @click="clear">
-            <i-codex:cross></i-codex:cross>
+          <ax-icon :size="16" v-if="showClear" @click="clear">
+            <circle-close-icon />
           </ax-icon>
         </span>
       </div>
@@ -60,6 +65,12 @@ import {
 } from 'vue'
 import { inputEmits, inputProps } from './input'
 import { formItemContextKey } from '../../form'
+import AxIcon from '../../icon'
+import {
+  CircleCloseIcon,
+  EyeIcon,
+  EyeOffIcon,
+} from '../../icon/src/internal-icons'
 
 const FormItemContext = inject(formItemContextKey)
 

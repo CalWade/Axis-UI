@@ -18,11 +18,9 @@
         ]"
         @click="handleExpand"
       >
-        <ax-icon :size="20" :color="'green'">
-          <i-codex:direction-down-right
-            v-if="!isLoading"
-          ></i-codex:direction-down-right>
-          <i-codex:loader v-else></i-codex:loader>
+        <ax-icon :size="16">
+          <caret-right-icon v-if="!isLoading" />
+          <loader-icon v-else />
         </ax-icon>
       </span>
       <ax-checkbox
@@ -45,6 +43,8 @@ import { treeInjectKey, treeNodeEmits, treeNodeProps } from './tree'
 import { computed, inject } from 'vue'
 import AxTreeNodeContent from './tree-node-content'
 import AxCheckbox from '../../checkbox'
+import AxIcon from '../../icon'
+import { CaretRightIcon, LoaderIcon } from '../../icon/src/internal-icons'
 const bem = createNamespace('tree-node')
 const props = defineProps(treeNodeProps)
 
