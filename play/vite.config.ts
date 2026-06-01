@@ -2,7 +2,6 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import DefineOptions from 'unplugin-vue-define-options/vite'
 import Components from 'unplugin-vue-components/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
@@ -12,7 +11,6 @@ import { AxisUIResolver } from '../packages/components/resolver'
 export default defineConfig({
   plugins: [
     vue(),
-    DefineOptions(),
     vueJsx(),
     Icons({
       autoInstall: true, // 自动安装需要的图标库 (建议开启)
@@ -49,7 +47,10 @@ export default defineConfig({
       },
       {
         find: '@axis-ui/theme-chalk',
-        replacement: resolve(__dirname, '../packages/theme-chalk/src/index.scss'),
+        replacement: resolve(
+          __dirname,
+          '../packages/theme-chalk/src/index.scss'
+        ),
       },
     ],
   },
