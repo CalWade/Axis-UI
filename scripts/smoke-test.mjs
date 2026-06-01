@@ -17,6 +17,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+const cssLoaderHook = path.join(root, 'scripts/css-loader-hook.mjs')
 const PACKAGES = [
   'packages/utils',
   'packages/theme-chalk',
@@ -111,7 +112,10 @@ assert.ok(withInstall && createNamespace, '@axis-ui/utils 导出失败')
 console.log('✅ 消费者导入测试通过（主入口 / 子路径 / resolver / utils）')
 `
 )
-execSync('node consume.mjs', { cwd: tmp, stdio: 'inherit' })
+execSync(`node --import "${cssLoaderHook}" consume.mjs`, {
+  cwd: tmp,
+  stdio: 'inherit',
+})
 
 // 5. 样式产物完整性
 const mustExist = [

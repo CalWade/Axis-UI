@@ -48,7 +48,8 @@ $_color-accent: #ffcce7;
   // 阴影
   --ax-shadow-sm: 0 2px 8px rgba(255, 158, 181, 0.1);
   --ax-shadow-md: 0 4px 12px rgba(255, 158, 181, 0.2);
-  --ax-shadow-focus: 0 4px 16px rgba(255, 158, 181, 0.25), 0 0 0 2px rgba(255, 158, 181, 0.2);
+  --ax-shadow-focus:
+    0 4px 16px rgba(255, 158, 181, 0.25), 0 0 0 2px rgba(255, 158, 181, 0.2);
 
   // 圆角
   --ax-border-radius: 8px;

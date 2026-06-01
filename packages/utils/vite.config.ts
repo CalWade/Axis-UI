@@ -9,7 +9,9 @@ export default defineConfig({
       outDir: 'dist/types',
       entryRoot: '.',
       // 只为本包源码生成声明，防止 vite.config.d.ts 等混入发布产物
-      include: ['index.ts', 'create.ts', 'with-install.ts'],
+      // index.ts 会继续导出主题与颜色工具；声明入口必须覆盖所有源码，
+      // 否则发布包中的 index.d.ts 会引用并不存在的声明文件。
+      include: ['*.ts'],
       exclude: ['vite.config.ts', 'dist', 'node_modules'],
     }),
   ],

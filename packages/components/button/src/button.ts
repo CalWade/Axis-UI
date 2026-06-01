@@ -1,6 +1,6 @@
 //存储组件的属性和相关事件
 
-import { ExtractPropTypes, PropType } from "vue"
+import { ExtractPropTypes, PropType } from 'vue'
 
 //size 按钮尺寸
 export type Size = 'large' | 'medium' | 'small' | 'mini'
@@ -24,19 +24,24 @@ export type NativeType = 'button' | 'submit' | 'reset'
 export type IconPlacement = 'left' | 'right'
 //插槽 icon
 
-
-
-
 export const buttonProps = {
   size: String as PropType<Size>,
-  type: {//写成对象形式是为了加校验器
+  type: {
+    // 写成对象形式是为了加校验器
     type: String as PropType<Type>,
     validator: (val: string) => {
-      return ['primary', 'success', 'warning', 'danger', 'info', 'default'].includes(val)
+      return [
+        'primary',
+        'success',
+        'warning',
+        'danger',
+        'info',
+        'default',
+      ].includes(val)
     },
-    default: '',
+    default: 'default',
   },
-  round:Boolean,
+  round: Boolean,
   loading: Boolean,
   disabled: Boolean,
   nativeType: {
@@ -47,7 +52,7 @@ export const buttonProps = {
     type: String as PropType<IconPlacement>,
     default: 'left',
   },
-}as const
+} as const
 
 export const buttonEmits = {
   click: (e: MouseEvent) => e instanceof MouseEvent,

@@ -72,7 +72,8 @@ import {
   EyeOffIcon,
 } from '../../icon/src/internal-icons'
 
-const FormItemContext = inject(formItemContextKey)
+// Input 可以脱离 FormItem 独立使用，显式默认值可避免 Vue 把可选注入报告为警告。
+const FormItemContext = inject(formItemContextKey, undefined)
 
 defineOptions({
   name: 'AxInput',
@@ -108,7 +109,7 @@ watch(
 
 // --------------------------
 const focus = async () => {
-  await nextTick //等待DOM更新完成
+  await nextTick() //等待DOM更新完成
   input.value?.focus()
 }
 

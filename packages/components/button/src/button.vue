@@ -17,18 +17,14 @@
       <ax-icon>
         <loader-icon v-if="loading" />
         <!-- 用户传入自定义icon -->
-        <template v-else-if="slots.icon">
-          <Component :is="slots.icon"></Component>
-        </template>
+        <slot v-else name="icon" />
       </ax-icon>
     </template>
     <slot></slot>
     <template v-if="iconPlacement === 'right' && (loading || slots.icon)">
       <ax-icon>
         <loader-icon v-if="loading" />
-        <template v-else-if="slots.icon">
-          <Component :is="slots.icon"></Component>
-        </template>
+        <slot v-else name="icon" />
       </ax-icon>
     </template>
   </button>
@@ -37,7 +33,6 @@
 <script lang="ts" setup>
 import { createNamespace } from '@axis-ui/utils'
 import { buttonEmits, buttonProps } from './button'
-import { useSlots } from 'vue'
 // 显式导入而非依赖全局注册：按需引入 Button 的用户未必注册过 Icon
 import AxIcon from '../../icon'
 import { LoaderIcon } from '../../icon/src/internal-icons'
@@ -49,7 +44,10 @@ defineOptions({ name: 'AxButton' })
 defineProps(buttonProps)
 const emit = defineEmits(buttonEmits)
 
-const slots = useSlots()
+const slots = defineSlots<{
+  default?: () => unknown
+  icon?: () => unknown
+}>()
 
 const emitClick = (e: MouseEvent) => {
   emit('click', e)
