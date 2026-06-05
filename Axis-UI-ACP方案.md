@@ -1156,13 +1156,14 @@ Raw Trace 导出必须包含 Redaction Manifest，并明确是否仍可能含有
 ```text
 Gate 01 → Gate 07 仍必须严格顺序执行
 每个 Gate 仍必须保持独立实现范围、自动化证据和 Review Pack
-每个 Gate 完成后必须创建一个可独立检出的 Git Commit
+每个 Gate 按合理开发单元创建一个或多个可独立检出的原子 Git Commit
+Commit Message 必须标记 gate-XX，Review Pack 记录该 Gate 的 Commit 列表与起止范围
 完成一个 Gate 后允许直接进入下一 Gate，不再等待逐 Gate 口头放行
 最终统一 Review 时，可以回滚或检出任一 Gate Commit 独立学习与验收
 任何 Gate 的自动化测试结果仍不等于用户最终 Review 通过
 ```
 
-该授权只取消本轮 Gate 01～07 之间的人工等待，不允许合并 Gate、倒序开发、遗漏 Review Pack，或把后续能力写进较早 Gate 的 Commit。最终人工结论仍由用户给出。
+该授权只取消本轮 Gate 01～07 之间的人工等待，不限制单个 Gate 的合理 Commit 数量；但不允许合并 Gate、倒序开发、遗漏 Review Pack，或把后续能力写进较早 Gate 的 Commit。最终人工结论仍由用户给出。
 
 本项目不采用“完成整个 P0/P1 后统一验收”的开发方式，而采用：
 

@@ -6,7 +6,7 @@
 >
 > Review 范围：Monorepo Workspace、公开/私有包、构建与发布过滤、Node/Vue 类型检查、Vitest Projects、原 Axis-UI 回归
 >
-> Review 方式：按用户 2026-08-20 的最新授权，Gate 01～07 连续开发、逐 Gate 独立提交，最终统一 Review；本文件保留问题、参考答案、两层追问和常见错误回答供独立学习。
+> Review 方式：按用户 2026-08-20 的最新授权，Gate 01～07 连续开发；每个 Gate 按合理开发单元创建一个或多个原子 Commit，最终统一 Review。本文件保留问题、参考答案、两层追问和常见错误回答供独立学习。
 
 ## 0. Gate 结论
 
@@ -455,6 +455,6 @@ Gate 01 的 Demo 是工程边界证据，不是 ACP 功能 Demo：
 ### Review 结论
 
 - 当前结论：**实现完成，等待最终统一 Review**
-- 连续开发授权：2026-08-20，用户明确授权 Gate 01～07 按顺序连续完成，每 Gate 独立提交
+- 连续开发授权：2026-08-20，用户明确授权 Gate 01～07 按顺序连续完成；每 Gate 可包含一个或多个带 Gate 标记的原子 Commit
 - 最终人工结论：待填写
 - 下一 Gate：Gate 02（Harness、子进程与安全）；允许在 Gate 01 Commit 创建后开始
