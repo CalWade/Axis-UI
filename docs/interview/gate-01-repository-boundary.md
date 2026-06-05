@@ -455,6 +455,6 @@ Gate 01 的 Demo 是工程边界证据，不是 ACP 功能 Demo：
 ### Review 结论
 
 - 当前结论：**实现完成，等待最终统一 Review**
-- 连续开发授权：2026-08-20，用户明确授权 Gate 01～07 按顺序连续完成；每 Gate 可包含一个或多个带 Gate 标记的原子 Commit
+- 连续开发授权：2026-08-20，用户明确授权 Gate 01～07 按顺序连续完成；每 Gate 可包含一个或多个原子 Commit，Commit Message 不带 Gate 标签，由 Review Pack 记录 Hash 映射
 - 最终人工结论：待填写
 - 下一 Gate：Gate 02（Harness、子进程与安全）；允许在 Gate 01 Commit 创建后开始

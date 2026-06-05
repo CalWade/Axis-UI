@@ -402,5 +402,5 @@ Fixture 的目的不是代表真实模型质量，而是稳定触发 Permission�
 ### 后续流程授权
 
 - 2026-08-20，用户明确取消 Gate 01～07 的逐 Gate 人工阻断，授权按顺序连续开发。
-- 每个 Gate 仍须独立测试、生成 Review Pack，并按合理开发单元创建一个或多个标记 `gate-XX` 的原子 Commit；最终统一 Review。
+- 每个 Gate 仍须独立测试、生成 Review Pack，并按合理开发单元创建一个或多个原子 Commit；Commit Message 只描述技术变更，Gate 映射由本机 Review Pack 记录，最终统一 Review。
 - 此调整不改变 Gate 00 已通过的结论。
