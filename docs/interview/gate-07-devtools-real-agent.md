@@ -15,18 +15,18 @@ Gate 07 已把前六个阶段的 Headless Runtime 组成可演示闭环：CLI �
 本 Gate 技术 Commit：
 
 ```text
-d70adcd feat: expose virtual list index navigation
-851da23 feat: register OpenCode as an ACP target
-1db9454 feat: add headless scenario reports
-81b6fb4 feat: run scenarios through the local bridge
-89d8c89 feat: build the ACP protocol workbench
+a90b80f feat: expose virtual list index navigation
+ceb3ae2 feat: register OpenCode as an ACP target
+ce30a83 feat: add headless scenario reports
+a554449 feat: run scenarios through the local bridge
+fdc924d feat: build the ACP protocol workbench
 ```
 
 独立 Review 范围：
 
 ```bash
-git log --oneline d70adcd^..89d8c89
-git diff d70adcd^..89d8c89
+git log --oneline a90b80f^..fdc924d
+git diff a90b80f^..fdc924d
 ```
 
 这些是五个合理的开发单元，不表示一个 Gate 必须只有一个 Commit：Axis-UI 通用能力、真实 Target、Headless Report、Host Bridge 和浏览器 Workbench 可以分别检出与测试。Review Pack 与 README 的文档 Commit 由最终索引登记。

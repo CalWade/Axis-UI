@@ -15,15 +15,15 @@ Gate 06 已完成“记录事实、脱敏导出、离线解释”的最小闭环
 本 Gate 技术 Commit：
 
 ```text
-e13aaf9 feat: add deterministic transcript replay
-0220742 feat: export replayable scenario artifacts
+087a5d9 feat: add deterministic transcript replay
+9c54779 feat: export replayable scenario artifacts
 ```
 
 独立 Review 范围：
 
 ```bash
-git log --oneline e13aaf9^..0220742
-git diff e13aaf9^..0220742
+git log --oneline 087a5d9^..9c54779
+git diff 087a5d9^..9c54779
 ```
 
 第一个 Commit 是无进程依赖的 Transcript/Redaction/Replay/Hash 内核；第二个 Commit 把 Scenario 的 Live Evidence 导出为可回放 Artifact，并验证 Live State 与 Replay State 一致。Review Pack 的文档 Commit 由最终索引另行登记。
@@ -318,9 +318,9 @@ pnpm vitest run --project replay test/replay/scenario-transcript.replay.spec.ts 
 ### Demo C：独立检出 Review
 
 ```bash
-git show --stat e13aaf9
-git show --stat 0220742
-git diff e13aaf9^..0220742
+git show --stat 087a5d9
+git show --stat 9c54779
+git diff 087a5d9^..9c54779
 ```
 
 ## 9. 当前不能写入简历的能力

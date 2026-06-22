@@ -15,17 +15,17 @@ Gate 04 已完成最小 ACP v1 Session 状态闭环：Harness 创建 Session 后
 本 Gate 技术 Commit：
 
 ```text
-469a12a feat: add deterministic ACP session reducer
-7aac9ea feat: orchestrate ACP session cancellation
-471a597 fix: preserve multi-turn session semantics
-b58da72 fix: converge tool state during cancellation
+9c1ffa6 feat: add deterministic ACP session reducer
+62e8677 feat: orchestrate ACP session cancellation
+6b59e17 fix: preserve multi-turn session semantics
+6623e56 fix: converge tool state during cancellation
 ```
 
 独立 Review 范围：
 
 ```bash
-git log --oneline 469a12a^..b58da72
-git diff 469a12a^..b58da72
+git log --oneline 9c1ffa6^..6623e56
+git diff 9c1ffa6^..6623e56
 ```
 
 四个 Commit 分别对应纯状态模型、协议副作用编排、多轮语义修正和 Cancel Tool 收敛。Review Pack 的文档 Commit 由最终索引另行登记。
@@ -368,7 +368,7 @@ pnpm test:unit -- --run packages/acp-core/src/session-reducer.spec.ts
 ### 回滚/检出
 
 ```bash
-git switch --detach b58da72
+git switch --detach 6623e56
 pnpm install --frozen-lockfile
 pnpm type-check
 pnpm test:unit

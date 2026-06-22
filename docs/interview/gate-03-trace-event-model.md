@@ -15,15 +15,15 @@ Gate 03 已建立 ACP DevKit 的“双层数据模型”：Transport Tap 在官�
 本 Gate 对应的技术 Commit：
 
 ```text
-24ba073 feat: add lossless ACP transport tracing
-fce8812 feat: normalize harness protocol telemetry
+a1a9c43 feat: add lossless ACP transport tracing
+b42d7d3 feat: normalize harness protocol telemetry
 ```
 
 独立 Review 范围：
 
 ```bash
-git log --oneline 24ba073^..fce8812
-git diff 24ba073^..fce8812
+git log --oneline a1a9c43^..b42d7d3
+git diff a1a9c43^..b42d7d3
 ```
 
 Review Pack 自身的文档 Commit 将由最终索引单独登记。自动化测试通过不代表用户已人工通过。
@@ -341,7 +341,7 @@ pnpm test:unit -- --run packages/acp-harness/src/transport-tap.spec.ts
 ### 回滚/检出
 
 ```bash
-git switch --detach fce8812
+git switch --detach b42d7d3
 pnpm install --frozen-lockfile
 pnpm type-check
 pnpm test:unit

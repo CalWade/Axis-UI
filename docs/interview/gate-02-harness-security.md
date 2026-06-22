@@ -15,16 +15,16 @@ Gate 02 已完成一个最小但真实的安全 ACP 启动闭环：浏览器侧�
 本 Gate 对应的技术 Commit：
 
 ```text
-c019e66 feat: add safe ACP subprocess harness
-d875eec test: verify harness security boundaries
-ff98873 fix: align harness types across root checks
+dc7fc4a feat: add safe ACP subprocess harness
+5d72df5 test: verify harness security boundaries
+caf4058 fix: align harness types across root checks
 ```
 
 可独立检查的实现范围：
 
 ```bash
-git log --oneline c019e66^..ff98873
-git diff c019e66^..ff98873
+git log --oneline dc7fc4a^..caf4058
+git diff dc7fc4a^..caf4058
 ```
 
 Review Pack 自身的文档 Commit 不纳入上述技术范围，最终索引会单独登记。自动化证据表示“可以统一 Review”，不表示用户已人工通过。
@@ -376,7 +376,7 @@ pnpm test:security -- --run test/security/local-bridge.security.spec.ts
 ### 回滚/检出
 
 ```bash
-git switch --detach ff98873
+git switch --detach caf4058
 pnpm install --frozen-lockfile
 pnpm type-check
 pnpm test:contract

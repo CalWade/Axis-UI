@@ -15,15 +15,15 @@ Gate 05 已形成最小可重复的 ACP 兼容性测试闭环：Scenario Runner 
 本 Gate 技术 Commit：
 
 ```text
-2853142 feat: classify ACP lifecycle diagnostics
-49b9720 feat: run deterministic ACP conformance scenarios
+1d95ebc feat: classify ACP lifecycle diagnostics
+b2af77f feat: run deterministic ACP conformance scenarios
 ```
 
 独立 Review 范围：
 
 ```bash
-git log --oneline 2853142^..49b9720
-git diff 2853142^..49b9720
+git log --oneline 1d95ebc^..b2af77f
+git diff 1d95ebc^..b2af77f
 ```
 
 前一个 Commit 是诊断模型、Client Profile、七条规则和状态快照证据；后一个 Commit 是三个固定场景、Runner 与定向 Fixture 行为。Review Pack 的文档 Commit 由最终索引另行登记。
@@ -356,9 +356,9 @@ pnpm vitest run --project scenario test/scenario/lifecycle-invariants.scenario.s
 ### Demo C：独立检出 Review
 
 ```bash
-git show --stat 2853142
-git show --stat 49b9720
-git diff 2853142^..49b9720
+git show --stat 1d95ebc
+git show --stat b2af77f
+git diff 1d95ebc^..b2af77f
 ```
 
 第一条查看规则与证据基础，第二条查看可执行场景。Commit 信息只描述技术变更，Gate 映射只在本文中维护。
